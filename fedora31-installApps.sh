@@ -1,12 +1,6 @@
 #!/bin/bash
 # missing pkgs pcsx2 playonlinux nitroshare preload bleachbit
 
-# Enable rpmfusion repositories
-sudo sh -c "dnf install https://download1.rpmfusion.org/free/fedora/\
-rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
-https://download1.rpmfusion.org/nonfree/fedora/\
-rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
-
 # Enable docker ce repository
 sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
 
@@ -22,6 +16,12 @@ enabled=1
 metadata_expire=120m'
 
 echo "$ins" | sudo tee '/etc/yum.repos.d/insync.repo'
+
+# Enable rpmfusion repositories
+sudo sh -c "dnf install https://download1.rpmfusion.org/free/fedora/\
+rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
+https://download1.rpmfusion.org/nonfree/fedora/\
+rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm"
 
 # Enable vscode repository
 sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc
@@ -39,7 +39,7 @@ echo "$vsc" | sudo tee '/etc/yum.repos.d/vscode.repo'
 sudo dnf --refresh upgrade
 
 # Install applications
-devel=(code git icedtea-web java-latest-openjdk-devel java-latest-openjdk-javadoc meld \
+devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc meld \
        nodejs-yarn npm pipenv python3-devel python3-ipython python3-virtualenv \
        ShellCheck umbrello)
 ed=(hunspell-en hunspell-es libreoffice-core pspp)
@@ -83,11 +83,13 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # Create applications dir and switch to it
 mkdir "$HOME/Applications" && cd "$_" || return
 
-# Install chrome, multibootusb rpms
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-latestM="https://github.com$(wget -O - \
+# Install chrome, dbvisualizer, multibootusb rpms
+latestDbvis="$(wget -O - https://www.dbvis.com/download | grep -m 1 -o 'https://.*rpm')"
+latestMbusb="https://github.com$(wget -O - \
 https://github.com/mbusb/multibootusb/releases/latest | grep -Po '/.+[0-9]\.noarch\.rpm')"
-wget -O mbusb.rpm "$latestM"
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
+wget "$latestDbvis"
+wget -O mbusb.rpm "$latestMbusb"
 
 sudo dnf install ./*.rpm
 
