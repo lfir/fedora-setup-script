@@ -46,7 +46,7 @@ sudo dnf -x akregator -x dnfdragora -x kaddressbook -x kamera -x kmag \
 devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc meld nodejs-yarn npm pipenv \
   python3-devel python3-ipython python3-virtualenv ShellCheck umbrello)
 ed=(hunspell-en hunspell-es pspp)
-games=(desmume knights pcsxr q4wine steam visualboyadvance-m wine winetricks)
+games=(desmume knights pcsx2 pcsxr q4wine steam visualboyadvance-m wine winetricks)
 graph=(kolourpaint okular xchm)
 hw=(radeontop xorg-x11-drv-amdgpu)
 inet=(filezilla firefox insync konversation remmina transmission-qt wireshark)
