@@ -50,13 +50,13 @@ games=(desmume knights pcsx2 pcsxr q4wine steam visualboyadvance-m wine winetric
 graph=(kolourpaint okular xchm)
 hw=(radeontop xorg-x11-drv-amdgpu)
 inet=(filezilla firefox insync konversation remmina transmission-qt wireshark)
-misc=(akmods akmod-VirtualBox dkms dnf-utils flatpak fuse-encfs grub-customizer hddtemp iftop iotop \
-  kernel-devel libvirt-bash-completion lm_sensors lshw mate-themes moreutils moreutils-parallel \
+misc=(akmod-VirtualBox dkms dnf-utils flatpak fuse-encfs grub-customizer hddtemp iftop iotop \
+  kernel-devel libvirt-bash-completion lm_sensors lshw mate-themes moreutils-parallel \
   ncdu p7zip p7zip-plugins papirus-icon-theme policycoreutils-gui qemu-kvm ranger \
-  smartmontools stress sysstat telnet tldr unrar wget whois xdotool)
+  smartmontools stress sysstat telnet tldr unrar wget xdotool)
 multimedia=(asciinema bchunk vlc)
-system=(beesu cockpit cockpit-docker cockpit-machines cockpit-networkmanager cockpit-selinux \
-  containerd.io docker-ce docker-ce-cli docker-compose finger gnome-nettool gparted grsync htop \
+system=(beesu cockpit cockpit-docker cockpit-machines cockpit-selinux \
+  containerd.io docker-ce docker-compose finger gnome-nettool gparted grsync htop \
   ksystemlog tmux virt-manager VirtualBox VirtualBox-server)
 utils=(ark filelight gtkhash kate keepassxc knotes krename nfoview)
 
