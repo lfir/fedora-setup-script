@@ -51,9 +51,10 @@ graph=(kolourpaint okular xchm)
 hw=(radeontop xorg-x11-drv-amdgpu)
 inet=(filezilla firefox insync konversation remmina transmission-qt wireshark)
 misc=(akmod-VirtualBox dkms dnf-utils flatpak fuse-encfs grub-customizer hddtemp iftop iotop \
-  kernel-devel libvirt-bash-completion lm_sensors lshw mate-themes moreutils-parallel \
-  ncdu p7zip p7zip-plugins papirus-icon-theme policycoreutils-gui qemu-kvm ranger \
-  smartmontools stress sysstat telnet tldr unrar wget xdotool)
+  kernel-devel libvirt-bash-completion lm_sensors lshw mate-themes moreutils-parallel ncdu p7zip \
+  p7zip-plugins papirus-icon-theme policycoreutils-gui python-django-bash-completion \
+  python3-click-completion qemu-kvm ranger smartmontools stress sysstat telnet tldr unrar wget \
+  xdotool)
 multimedia=(asciinema bchunk vlc)
 system=(beesu cockpit cockpit-docker cockpit-machines cockpit-selinux \
   containerd.io docker-ce docker-compose finger gnome-nettool gparted grsync htop \
