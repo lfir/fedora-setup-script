@@ -54,7 +54,7 @@ misc=(akmod-VirtualBox dkms dnf-utils flatpak fuse-encfs grub-customizer hddtemp
   kernel-devel libvirt-bash-completion lm_sensors lshw mate-themes moreutils-parallel ncdu p7zip \
   p7zip-plugins papirus-icon-theme policycoreutils-gui python-django-bash-completion \
   qemu-kvm ranger smartmontools stress sysstat telnet tldr unrar wget xdotool)
-multimedia=(asciinema bchunk smplayer smtube)
+multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
 system=(beesu cockpit cockpit-docker cockpit-machines cockpit-selinux \
   containerd.io docker-ce docker-compose finger gnome-nettool gparted grsync htop \
   ksystemlog tmux virt-manager VirtualBox VirtualBox-server)
