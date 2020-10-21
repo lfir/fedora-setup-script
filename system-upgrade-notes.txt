@@ -1,0 +1,5 @@
+# Repositories that use $releasever need to be checked before
+# performing a system upgrade to see if packages for target
+# release are available.
+https://download.docker.com/linux/fedora/
+http://yum.insync.io/
