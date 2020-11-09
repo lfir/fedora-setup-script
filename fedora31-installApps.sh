@@ -69,12 +69,10 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # Create applications dir and switch to it
 mkdir "$HOME/Applications" && cd "$_" || return
 
-# Install Chrome, DBVisualizer, Multibootusb rpms
-latestDbvis="$(wget -O - https://www.dbvis.com/download | grep -m 1 -o 'https://.*rpm')"
+# Install Chrome, Multibootusb rpms
 latestMbusb="https://github.com$(wget -O - \
 https://github.com/mbusb/multibootusb/releases/latest | grep -Po '/.+[0-9]\.noarch\.rpm')"
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-wget "$latestDbvis"
 wget -O mbusb.rpm "$latestMbusb"
 
 sudo dnf install ./*.rpm
