@@ -46,7 +46,7 @@ ed=(hunspell-en hunspell-es pspp)
 games=(desmume knights pcsx2 pcsxr q4wine steam visualboyadvance-m wine winetricks)
 graph=(kolourpaint okular xchm)
 hw=(radeontop xorg-x11-drv-amdgpu)
-inet=(filezilla firefox insync konversation remmina transmission-qt wireshark)
+inet=(filezilla firefox insync konversation ktorrent remmina wireshark)
 misc=(akmod-VirtualBox dkms dnf-utils flatpak fuse-encfs grub-customizer hddtemp iftop iotop \
   kernel-devel libvirt-bash-completion lm_sensors lshw mate-themes moreutils-parallel ncdu p7zip \
   p7zip-plugins papirus-icon-theme policycoreutils-gui python-django-bash-completion \
