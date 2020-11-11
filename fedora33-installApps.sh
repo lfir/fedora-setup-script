@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Enable Docker CE repository
-sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
-
 # Enable Insync repository
 sudo rpm --import https://d2t3ff60b2tol4.cloudfront.net/repomd.xml.key
 
@@ -55,9 +52,9 @@ misc=(akmod-VirtualBox dkms dnf-utils flatpak fuse-encfs grub-customizer hddtemp
   p7zip-plugins papirus-icon-theme policycoreutils-gui python-django-bash-completion \
   qemu-kvm ranger smartmontools stress sysstat telnet tldr unrar wget xdotool)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
-system=(beesu cockpit cockpit-docker cockpit-machines cockpit-selinux \
-  containerd.io docker-ce docker-compose finger gnome-nettool gparted grsync htop \
-  ksystemlog tmux virt-manager VirtualBox VirtualBox-server)
+system=(beesu cockpit cockpit-machines cockpit-selinux \
+  docker-compose finger gnome-nettool gparted grsync htop \
+  ksystemlog moby-engine tmux virt-manager VirtualBox VirtualBox-server)
 utils=(ark filelight gtkhash kate keepassxc knotes krename nfoview)
 
 sudo dnf install "${devel[@]}" "${ed[@]}" "${games[@]}" "${graph[@]}" "${hw[@]}" \
