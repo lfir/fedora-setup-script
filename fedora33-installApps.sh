@@ -55,7 +55,7 @@ multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
 system=(beesu cockpit cockpit-machines cockpit-selinux \
   docker-compose finger gnome-nettool gparted grsync htop \
   ksystemlog moby-engine tmux virt-manager VirtualBox VirtualBox-server)
-utils=(ark filelight gtkhash kate keepassxc knotes krename nfoview)
+utils=(ark filelight gtkhash kate keepassxc knotes krename nfoview vim)
 
 sudo dnf install "${devel[@]}" "${ed[@]}" "${games[@]}" "${graph[@]}" "${hw[@]}" \
   "${inet[@]}" "${misc[@]}" "${multimedia[@]}" "${system[@]}" "${utils[@]}"
