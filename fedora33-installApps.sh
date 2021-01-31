@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# Remove unused applications present in the KDE Spin
+sudo dnf remove calligra-core dnfdragora dragon falkon juk k3b kaddressbook kamoso kde-connect \
+  kmag kmahjongg kmail kmines kmousetool kmouth kontact korganizer kpat krdc krfb kruler \
+  krusader kwrite mediawriter plasma-discover
+
 # Enable Insync repository
 sudo rpm --import https://d2t3ff60b2tol4.cloudfront.net/repomd.xml.key
 
@@ -34,28 +39,26 @@ echo "$vsc" | sudo tee '/etc/yum.repos.d/vscode.repo'
 # Update base system
 sudo dnf --refresh upgrade
 
-# Install package groups excluding unneeded apps
-sudo dnf -x akregator -x dnfdragora -x kaddressbook -x kamera -x kmag \
-  -x kmail -x kmousetool -x kmouth -x konqueror -x kontact -x korganizer -x kruler -x kwrite \
-  -x plasma-discover -x plasma-pk-updates groupinstall Fonts kde-desktop LibreOffice
+# Install package groups
+sudo dnf groupinstall Fonts LibreOffice
 
 # Install additional applications
 devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc meld nodejs-yarn npm pipenv \
   python3-devel python3-ipython python3-virtualenv ShellCheck umbrello)
 ed=(hunspell-en hunspell-es pspp)
 games=(desmume knights pcsx2 pcsxr q4wine steam visualboyadvance-m wine winetricks)
-graph=(kolourpaint okular xchm)
+graph=(okular xchm)
 hw=(radeontop xorg-x11-drv-amdgpu)
-inet=(filezilla firefox insync konversation ktorrent remmina wireshark)
-misc=(akmod-VirtualBox dkms dnf-utils flatpak fuse-encfs grub-customizer hddtemp iftop iotop \
+inet=(filezilla insync remmina wireshark)
+misc=(akmod-VirtualBox dkms dnf-utils fuse-encfs grub-customizer hddtemp iftop iotop \
   kernel-devel libvirt-bash-completion lm_sensors lshw mate-themes moreutils-parallel ncdu p7zip \
   p7zip-plugins papirus-icon-theme policycoreutils-gui python-django-bash-completion \
-  qemu-kvm ranger smartmontools stress sysstat telnet tldr unrar wget xdotool)
+  qemu-kvm ranger smartmontools stress sysstat telnet tldr unrar xdotool)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
 system=(beesu cockpit cockpit-machines cockpit-selinux \
   docker-compose finger gnome-nettool gparted grsync htop \
-  ksystemlog moby-engine tmux virt-manager VirtualBox VirtualBox-server)
-utils=(ark filelight gtkhash kate kcron keepassxc knotes krename nfoview vim)
+  ksystemlog moby-engine virt-manager VirtualBox VirtualBox-server)
+utils=(filelight gtkhash kate kcron keepassxc knotes krename nfoview vim)
 
 sudo dnf install "${devel[@]}" "${ed[@]}" "${games[@]}" "${graph[@]}" "${hw[@]}" \
   "${inet[@]}" "${misc[@]}" "${multimedia[@]}" "${system[@]}" "${utils[@]}"
@@ -63,7 +66,7 @@ sudo dnf install "${devel[@]}" "${ed[@]}" "${games[@]}" "${graph[@]}" "${hw[@]}"
 # Enable Flathub repository
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-# Create applications dir and switch to it
+# Create applications' directory and switch to it
 mkdir "$HOME/Applications" && cd "$_" || return
 
 # Install Chrome, Multibootusb rpms
