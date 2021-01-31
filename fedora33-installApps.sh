@@ -47,7 +47,7 @@ devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc meld nodej
   python3-devel python3-ipython python3-virtualenv ShellCheck umbrello)
 ed=(hunspell-en hunspell-es pspp)
 games=(desmume knights pcsx2 pcsxr q4wine steam visualboyadvance-m wine winetricks)
-graph=(okular xchm)
+graph=(xchm)
 hw=(radeontop xorg-x11-drv-amdgpu)
 inet=(filezilla insync remmina wireshark)
 misc=(akmod-VirtualBox dkms dnf-utils fuse-encfs grub-customizer hddtemp iftop iotop \
