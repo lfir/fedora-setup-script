@@ -45,22 +45,21 @@ sudo dnf groupinstall Fonts LibreOffice
 # Install additional applications
 devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc meld nodejs-yarn npm pipenv \
   python3-devel python3-ipython python3-virtualenv ShellCheck umbrello)
-ed=(hunspell-en hunspell-es pspp)
+educ=(pspp)
 games=(desmume knights pcsx2 pcsxr q4wine steam visualboyadvance-m wine winetricks)
-graph=(xchm)
 hw=(radeontop xorg-x11-drv-amdgpu)
 inet=(filezilla insync remmina wireshark)
-misc=(akmod-VirtualBox dkms dnf-utils fuse-encfs grub-customizer hddtemp iftop iotop \
-  kernel-devel libvirt-bash-completion lm_sensors lshw mate-themes moreutils-parallel ncdu p7zip \
-  p7zip-plugins papirus-icon-theme policycoreutils-gui python-django-bash-completion \
+misc=(akmod-VirtualBox dkms dnf-utils fuse-encfs grub-customizer hddtemp hunspell-en hunspell-es \
+  iftop iotop kernel-devel libvirt-bash-completion lm_sensors lshw mate-themes moreutils-parallel \
+  ncdu p7zip p7zip-plugins papirus-icon-theme policycoreutils-gui python-django-bash-completion \
   qemu-kvm ranger smartmontools stress sysstat telnet tldr unrar xdotool)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
 system=(beesu cockpit cockpit-machines cockpit-selinux \
   docker-compose finger gnome-nettool gparted grsync htop \
   ksystemlog moby-engine virt-manager VirtualBox VirtualBox-server)
-utils=(filelight gtkhash kate kcron keepassxc knotes krename nfoview vim)
+utils=(filelight gtkhash kate kcron keepassxc knotes krename nfoview vim xchm)
 
-sudo dnf install "${devel[@]}" "${ed[@]}" "${games[@]}" "${graph[@]}" "${hw[@]}" \
+sudo dnf install "${devel[@]}" "${educ[@]}" "${games[@]}" "${hw[@]}" \
   "${inet[@]}" "${misc[@]}" "${multimedia[@]}" "${system[@]}" "${utils[@]}"
 
 # Enable Flathub repository
@@ -80,7 +79,7 @@ sudo dnf install ./*.rpm
 # Remove downloaded rpms
 rm -f ./*.rpm
 
-# Add current user to groups
+# Add current user to administration groups
 sudo groupmems -a "$USER" -g docker -g libvirt -g vboxsf -g vboxusers
 
 # Enable Cockpit autostart
