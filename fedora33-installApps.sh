@@ -49,10 +49,10 @@ educ=(pspp)
 games=(desmume knights pcsx2 pcsxr q4wine steam visualboyadvance-m wine winetricks)
 hw=(radeontop xorg-x11-drv-amdgpu)
 inet=(filezilla insync remmina wireshark)
-misc=(akmod-VirtualBox dkms dnf-utils fuse-encfs grub-customizer hddtemp hunspell-en hunspell-es \
-  iftop iotop kernel-devel libvirt-bash-completion lm_sensors lshw mate-themes moreutils-parallel \
-  ncdu p7zip p7zip-plugins papirus-icon-theme policycoreutils-gui python-django-bash-completion \
-  qemu-kvm ranger smartmontools stress sysstat telnet tldr unrar xdotool)
+misc=(akmod-VirtualBox dkms dnf-utils exfat-utils fuse-encfs grub-customizer hddtemp hunspell-en \
+  hunspell-es iftop iotop kernel-devel libvirt-bash-completion lm_sensors lshw mate-themes \
+  moreutils-parallel ncdu p7zip p7zip-plugins papirus-icon-theme policycoreutils-gui \
+  python-django-bash-completion qemu-kvm ranger smartmontools stress sysstat telnet tldr unrar xdotool)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
 system=(beesu cockpit cockpit-machines cockpit-selinux \
   docker-compose finger gnome-nettool gparted grsync htop \
