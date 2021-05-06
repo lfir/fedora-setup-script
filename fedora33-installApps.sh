@@ -55,7 +55,7 @@ misc=(akmod-VirtualBox dkms dnf-utils exfat-utils fuse-encfs grub-customizer hdd
   python-django-bash-completion qemu-kvm ranger smartmontools stress sysstat telnet tldr unrar xdotool)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
 system=(beesu cockpit cockpit-machines cockpit-selinux \
-  docker-compose finger gnome-nettool gparted grsync htop \
+  docker-compose finger gnome-nettool grsync htop \
   ksystemlog moby-engine virt-manager VirtualBox VirtualBox-server)
 utils=(filelight gtkhash kate kcron keepassxc knotes krename nfoview vim xchm)
 
@@ -68,11 +68,8 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 # Create applications' directory and switch to it
 mkdir "$HOME/Applications" && cd "$_" || return
 
-# Install Chrome, Multibootusb rpms
-latestMbusb="https://github.com$(wget -O - \
-https://github.com/mbusb/multibootusb/releases/latest | grep -Po '/.+[0-9]\.noarch\.rpm')"
+# Install Chrome rpm
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
-wget -O mbusb.rpm "$latestMbusb"
 
 sudo dnf install ./*.rpm
 
