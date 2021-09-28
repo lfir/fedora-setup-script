@@ -50,7 +50,7 @@ games=(desmume knights pcsx2 pcsxr q4wine steam visualboyadvance-m wine winetric
 hw=(hddtemp lm_sensors radeontop stress xorg-x11-drv-amdgpu)
 inet=(filezilla insync remmina wireshark)
 misc=(akmod-VirtualBox dkms dnf-utils exfat-utils fuse-encfs hunspell-en \
-  hunspell-es kernel-devel libvirt-bash-completion mate-themes \
+  hunspell-es kernel-devel mate-themes \
   moreutils-parallel papirus-icon-theme \
   qemu-kvm smartmontools sysstat tldr unrar xdotool)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
