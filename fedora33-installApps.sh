@@ -78,7 +78,9 @@ sudo dnf install ./*.rpm
 rm -f ./*.rpm
 
 # Add current user to administration groups
-sudo groupmems -a "$USER" -g docker -g libvirt -g vboxsf -g vboxusers
+for group in docker libvirt vboxsf vboxusers ; do
+  getent group "$group" && sudo groupmems -a "$USER" -g "$group"
+done
 
 # Enable Cockpit autostart
 sudo systemctl enable --now cockpit.socket
