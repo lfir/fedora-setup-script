@@ -79,7 +79,7 @@ rm -f ./*.rpm
 
 # Add current user to administration groups
 for group in docker libvirt vboxsf vboxusers ; do
-  getent group "$group" && sudo groupmems -a "$USER" -g "$group"
+  getent group "$group" || sudo groupadd "$group" ; sudo groupmems -a "$USER" -g "$group"
 done
 
 # Enable Cockpit autostart
