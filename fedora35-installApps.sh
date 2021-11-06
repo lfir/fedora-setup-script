@@ -53,7 +53,7 @@ misc=(akmod-VirtualBox dkms dnf-utils exfat-utils fuse-encfs hunspell-en \
   hunspell-es kernel-devel mate-themes \
   moreutils-parallel papirus-icon-theme \
   qemu-kvm smartmontools sysstat tldr unrar xdotool)
-multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
+multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube youtube-dl)
 system=(beesu cockpit cockpit-machines cockpit-selinux \
   docker-compose finger gnome-nettool grsync grub-customizer htop iftop iotop \
   ksystemlog lshw moby-engine ncdu policycoreutils-gui virt-manager VirtualBox VirtualBox-server)
