@@ -1,4 +1,4 @@
-### fedora35-installApps.sh
+## Fedora setup script
 Bash script that installs most KDE applications and many development tools on
 Fedora 35 systems. It also sets some useful configuration options.
 
