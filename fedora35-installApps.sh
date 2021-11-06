@@ -50,10 +50,10 @@ games=(desmume knights pcsx2 pcsxr q4wine steam visualboyadvance-m wine winetric
 hw=(hddtemp lm_sensors radeontop stress xorg-x11-drv-amdgpu)
 inet=(filezilla insync remmina wireshark)
 misc=(akmod-VirtualBox dkms dnf-utils exfat-utils fuse-encfs hunspell-en \
-  hunspell-es kernel-devel libvirt-bash-completion mate-themes \
+  hunspell-es kernel-devel mate-themes \
   moreutils-parallel papirus-icon-theme \
   qemu-kvm smartmontools sysstat tldr unrar xdotool)
-multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
+multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube youtube-dl)
 system=(beesu cockpit cockpit-machines cockpit-selinux \
   docker-compose finger gnome-nettool grsync grub-customizer htop iftop iotop \
   ksystemlog lshw moby-engine ncdu policycoreutils-gui virt-manager VirtualBox VirtualBox-server)
@@ -78,7 +78,9 @@ sudo dnf install ./*.rpm
 rm -f ./*.rpm
 
 # Add current user to administration groups
-sudo groupmems -a "$USER" -g docker -g libvirt -g vboxsf -g vboxusers
+for group in docker libvirt vboxsf vboxusers ; do
+  getent group "$group" || sudo groupadd "$group" ; sudo groupmems -a "$USER" -g "$group"
+done
 
 # Enable Cockpit autostart
 sudo systemctl enable --now cockpit.socket
