@@ -1,4 +1,4 @@
-### fedora33-installApps.sh
+### fedora35-installApps.sh
 Bash script that installs most KDE applications and many development tools on
 Fedora 35 systems. It also sets some useful configuration options.
 
