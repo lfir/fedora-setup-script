@@ -46,9 +46,9 @@ sudo dnf groupinstall Fonts LibreOffice
 devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc meld nodejs-yarn npm pipenv \
   python-django-bash-completion python3-devel python3-ipython python3-virtualenv ShellCheck)
 educ=(pspp)
-games=(desmume knights pcsx2 pcsxr q4wine steam visualboyadvance-m wine winetricks)
+games=(knights q4wine steam wine winetricks)
 hw=(hddtemp lm_sensors radeontop stress xorg-x11-drv-amdgpu)
-inet=(filezilla insync remmina wireshark)
+inet=(filezilla firefox insync remmina wireshark)
 misc=(akmod-VirtualBox dkms dnf-utils exfat-utils fuse-encfs hunspell-en \
   hunspell-es kernel-devel mate-themes \
   moreutils-parallel papirus-icon-theme \
