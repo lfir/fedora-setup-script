@@ -43,20 +43,20 @@ sudo dnf --refresh upgrade
 sudo dnf groupinstall Fonts LibreOffice
 
 # Install additional applications
-devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc meld nodejs-yarn npm pipenv \
-  python-django-bash-completion python3-devel python3-ipython python3-virtualenv ShellCheck)
+devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc \
+  meld nodejs-yarn npm pipenv python-django-bash-completion python3-devel \
+  python3-ipython python3-virtualenv ShellCheck)
 educ=(pspp)
-games=(knights q4wine steam wine winetricks)
-hw=(hddtemp lm_sensors radeontop stress xorg-x11-drv-amdgpu)
-inet=(filezilla firefox insync remmina wireshark)
+games=(knights lutris q4wine steam wine winetricks)
+hw=(hddtemp lm_sensors lshw radeontop smartmontools stress xorg-x11-drv-amdgpu)
+inet=(filezilla firefox insync ktorrent remmina wireshark)
 misc=(akmod-VirtualBox dkms dnf-utils exfat-utils fuse-encfs hunspell-en \
-  hunspell-es kernel-devel mate-themes \
-  moreutils-parallel papirus-icon-theme \
-  qemu-kvm smartmontools sysstat tldr unrar xdotool)
+  hunspell-es kernel-devel mate-themes moreutils-parallel papirus-icon-theme \
+  qemu-kvm sysstat tldr unrar xdotool)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube youtube-dl)
-system=(beesu cockpit cockpit-machines cockpit-selinux \
-  docker-compose finger gnome-nettool grsync grub-customizer htop iftop iotop \
-  ksystemlog lshw moby-engine ncdu policycoreutils-gui virt-manager VirtualBox VirtualBox-server)
+system=(beesu cockpit cockpit-machines cockpit-selinux docker-compose finger \
+  gnome-nettool grsync grub-customizer htop iftop iotop ksystemlog moby-engine \
+  ncdu policycoreutils-gui virt-manager VirtualBox VirtualBox-server)
 utils=(detox filelight gtkhash kate kcron keepassxc knotes krename nfoview \
   p7zip p7zip-plugins ranger vim xchm)
 
