@@ -2,7 +2,7 @@
 
 # Remove unused applications present in the KDE Spin
 sudo dnf remove calligra-core dnfdragora dragon falkon juk k3b kaddressbook kamoso kde-connect \
-  kmag kmahjongg kmail kmines kmousetool kmouth kontact korganizer kpat krdc krfb kruler \
+  kmag kmahjongg kmail kmines kmousetool kmouth kontact korganizer kpat krdc krfb \
   krusader kwrite mediawriter plasma-discover
 
 # Enable Insync repository
@@ -57,7 +57,7 @@ multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube youtube
 system=(beesu cockpit cockpit-machines cockpit-selinux docker-compose finger \
   gnome-nettool grsync grub-customizer htop iftop iotop ksystemlog moby-engine \
   ncdu policycoreutils-gui virt-manager VirtualBox VirtualBox-server)
-utils=(detox filelight gtkhash kate kcron keepassxc knotes krename nfoview \
+utils=(detox filelight gtkhash kate kcron keepassxc knotes krename kruler nfoview \
   p7zip p7zip-plugins ranger vim xchm)
 
 sudo dnf install "${devel[@]}" "${educ[@]}" "${games[@]}" "${hw[@]}" \
