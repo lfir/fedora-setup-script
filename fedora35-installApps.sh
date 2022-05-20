@@ -49,8 +49,8 @@ devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc \
 educ=(pspp)
 games=(knights lutris q4wine steam wine winetricks)
 hw=(hddtemp lm_sensors lshw radeontop smartmontools stress xorg-x11-drv-amdgpu)
-inet=(filezilla firefox insync ktorrent remmina wireshark)
-misc=(akmod-VirtualBox dkms dnf-utils exfat-utils fuse-encfs hunspell-en \
+inet=(filezilla insync ktorrent remmina wireshark)
+misc=(akmod-VirtualBox dkms dnf-plugins-core exfat-utils fuse-encfs hunspell-en \
   hunspell-es kernel-devel mate-themes moreutils-parallel papirus-icon-theme \
   qemu-kvm sysstat tldr unrar xdotool)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube youtube-dl)
@@ -88,3 +88,4 @@ sudo systemctl enable --now cockpit.socket
 # Cleanup
 sudo dnf autoremove
 sudo dnf clean packages
+
