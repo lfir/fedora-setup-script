@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Remove unused applications present in the KDE Spin
-sudo dnf remove calligra-core dnfdragora dragon falkon juk k3b kaddressbook kamoso kde-connect \
+sudo dnf remove akregator dnfdragora dragon elisa-player kaddressbook kamoso kde-connect \
   kmag kmahjongg kmail kmines kmousetool kmouth kontact korganizer kpat krdc krfb \
-  krusader kwrite mediawriter plasma-discover
+  kwrite mediawriter plasma-discover
 
 # Enable Insync repository
 sudo rpm --import https://d2t3ff60b2tol4.cloudfront.net/repomd.xml.key
@@ -48,7 +48,7 @@ devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc \
   python3-ipython python3-virtualenv ShellCheck)
 educ=(pspp)
 games=(knights lutris q4wine steam wine winetricks)
-hw=(hddtemp lm_sensors lshw radeontop smartmontools stress xorg-x11-drv-amdgpu)
+hw=(hddtemp kmod-wl lm_sensors lshw radeontop smartmontools stress xorg-x11-drv-amdgpu)
 inet=(filezilla insync ktorrent remmina wireshark)
 misc=(akmod-VirtualBox dkms dnf-plugins-core exfat-utils fuse-encfs hunspell-en \
   hunspell-es kernel-devel mate-themes moreutils-parallel papirus-icon-theme \
