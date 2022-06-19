@@ -50,9 +50,8 @@ educ=(pspp)
 games=(knights lutris q4wine steam wine winetricks)
 hw=(hddtemp kmod-wl lm_sensors lshw radeontop stress)
 inet=(filezilla insync ktorrent remmina wireshark)
-misc=(akmod-VirtualBox dkms exfat-utils \
-  hunspell-es kernel-devel mate-themes moreutils-parallel papirus-icon-theme \
-  qemu-kvm sysstat tldr unrar xdotool)
+misc=(akmod-VirtualBox dkms exfat-utils hunspell-es kernel-devel mate-themes \
+  moreutils-parallel papirus-icon-theme qemu-kvm sysstat tldr unrar xdotool)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube youtube-dl)
 system=(beesu cockpit cockpit-machines cockpit-selinux docker-compose finger \
   gnome-nettool grsync grub-customizer htop iftop iotop ksysguard ksystemlog \
