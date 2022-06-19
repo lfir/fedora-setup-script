@@ -48,17 +48,17 @@ devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc \
   python3-ipython python3-virtualenv ShellCheck)
 educ=(pspp)
 games=(knights lutris q4wine steam wine winetricks)
-hw=(hddtemp kmod-wl lm_sensors lshw radeontop smartmontools stress xorg-x11-drv-amdgpu)
+hw=(hddtemp kmod-wl lm_sensors lshw radeontop stress)
 inet=(filezilla insync ktorrent remmina wireshark)
-misc=(akmod-VirtualBox dkms dnf-plugins-core exfat-utils fuse-encfs hunspell-en \
+misc=(akmod-VirtualBox dkms exfat-utils \
   hunspell-es kernel-devel mate-themes moreutils-parallel papirus-icon-theme \
   qemu-kvm sysstat tldr unrar xdotool)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube youtube-dl)
 system=(beesu cockpit cockpit-machines cockpit-selinux docker-compose finger \
-  gnome-nettool grsync grub-customizer htop iftop iotop ksystemlog ksysguard \
+  gnome-nettool grsync grub-customizer htop iftop iotop ksysguard ksystemlog \
   moby-engine ncdu policycoreutils-gui virt-manager VirtualBox VirtualBox-server)
 utils=(detox filelight gtkhash kate kcron keepassxc knotes krename kruler nfoview \
-  p7zip p7zip-plugins ranger vim xchm)
+  p7zip ranger vim xchm)
 
 sudo dnf install "${devel[@]}" "${educ[@]}" "${games[@]}" "${hw[@]}" \
   "${inet[@]}" "${misc[@]}" "${multimedia[@]}" "${system[@]}" "${utils[@]}"
