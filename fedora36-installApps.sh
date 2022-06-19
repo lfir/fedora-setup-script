@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# Remove unused applications present in the KDE Spin
+# Uninstall unused applications present in the KDE Spin. Add or remove items as needed
 sudo dnf remove akregator dnfdragora dragon elisa-player kaddressbook kamoso kde-connect \
   kmag kmahjongg kmail kmines kmousetool kmouth kontact korganizer kpat krdc krfb \
-  kwrite mediawriter plasma-discover
+  kwrite mediawriter plasma-discover plasma-systemmonitor
 
 # Enable Insync repository
 sudo rpm --import https://d2t3ff60b2tol4.cloudfront.net/repomd.xml.key
@@ -55,8 +55,8 @@ misc=(akmod-VirtualBox dkms dnf-plugins-core exfat-utils fuse-encfs hunspell-en 
   qemu-kvm sysstat tldr unrar xdotool)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube youtube-dl)
 system=(beesu cockpit cockpit-machines cockpit-selinux docker-compose finger \
-  gnome-nettool grsync grub-customizer htop iftop iotop ksystemlog moby-engine \
-  ncdu policycoreutils-gui virt-manager VirtualBox VirtualBox-server)
+  gnome-nettool grsync grub-customizer htop iftop iotop ksystemlog ksysguard \
+  moby-engine ncdu policycoreutils-gui virt-manager VirtualBox VirtualBox-server)
 utils=(detox filelight gtkhash kate kcron keepassxc knotes krename kruler nfoview \
   p7zip p7zip-plugins ranger vim xchm)
 
