@@ -52,7 +52,7 @@ hw=(hddtemp kmod-wl lm_sensors lshw radeontop stress)
 inet=(filezilla insync ktorrent remmina wireshark)
 misc=(akmod-VirtualBox dkms exfat-utils hunspell-es kernel-devel mate-themes \
   moreutils-parallel papirus-icon-theme qemu-kvm sysstat tldr unrar xdotool)
-multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube youtube-dl)
+multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
 system=(beesu cockpit cockpit-machines cockpit-selinux docker-compose finger \
   gnome-nettool grsync grub-customizer htop iftop iotop ksysguard ksystemlog \
   moby-engine ncdu policycoreutils-gui virt-manager VirtualBox VirtualBox-server)
