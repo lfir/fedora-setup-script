@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Uninstall unused applications present in the KDE Spin. Add or remove items as needed
-sudo dnf remove akregator dnfdragora dragon elisa-player kaddressbook kamoso kde-connect \
-  kmag kmahjongg kmail kmines kmousetool kmouth kontact korganizer kpat krdc krfb \
-  kwrite mediawriter plasma-discover plasma-systemmonitor
+sudo dnf remove akregator dnfdragora dragon elisa-player kaddressbook kamoso kde-connect kmag \
+  kmahjongg kmail kmines kmousetool kmouth kontact korganizer kpat krdc krfb kwrite mediawriter \
+  plasma-discover plasma-systemmonitor
 
 # Enable Insync repository
 sudo rpm --import https://d2t3ff60b2tol4.cloudfront.net/repomd.xml.key
@@ -43,24 +43,21 @@ sudo dnf --refresh upgrade
 sudo dnf groupinstall Fonts LibreOffice
 
 # Install additional applications
-devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc \
-  meld nodejs-yarn npm pipenv python-django-bash-completion python3-devel \
-  python3-ipython python3-virtualenv ShellCheck)
-educ=(pspp)
+devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc meld nodejs-yarn npm pipenv \
+  python-django-bash-completion python3-devel python3-ipython python3-virtualenv ShellCheck)
 games=(knights lutris q4wine steam wine winetricks)
 hw=(hddtemp kmod-wl lm_sensors lshw radeontop stress)
 inet=(filezilla insync ktorrent remmina wireshark)
-misc=(akmod-VirtualBox dkms exfat-utils hunspell-es kernel-devel mate-themes \
-  moreutils-parallel papirus-icon-theme qemu-kvm sysstat tldr unrar xdotool)
-multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer smtube)
-system=(beesu cockpit cockpit-machines cockpit-selinux docker-compose finger \
-  gnome-nettool grsync grub-customizer htop iftop iotop ksysguard ksystemlog \
-  moby-engine ncdu policycoreutils-gui virt-manager VirtualBox VirtualBox-server)
-utils=(detox filelight gtkhash kate kcron keepassxc knotes krename kruler nfoview \
-  p7zip ranger vim xchm)
+multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer)
+system=(akmod-VirtualBox beesu cockpit cockpit-machines cockpit-selinux dkms docker-compose \
+  exfat-utils finger gnome-nettool grsync grub-customizer htop iftop iotop kcron kernel-devel \
+  ksysguard ksystemlog moby-engine ncdu policycoreutils-gui qemu-kvm sysstat virt-manager \
+  VirtualBox VirtualBox-server)
+utils=(detox filelight gtkhash hunspell-es kate keepassxc knotes krename kruler \
+  moreutils-parallel nfoview papirus-icon-theme p7zip ranger tldr unrar vim xchm xdotool)
 
-sudo dnf install "${devel[@]}" "${educ[@]}" "${games[@]}" "${hw[@]}" \
-  "${inet[@]}" "${misc[@]}" "${multimedia[@]}" "${system[@]}" "${utils[@]}"
+sudo dnf install "${devel[@]}" "${games[@]}" "${hw[@]}" "${inet[@]}" \
+  "${multimedia[@]}" "${system[@]}" "${utils[@]}"
 
 # Enable Flathub repository
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
