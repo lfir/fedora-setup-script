@@ -43,18 +43,18 @@ sudo dnf --refresh upgrade
 sudo dnf groupinstall Fonts LibreOffice
 
 # Install additional applications
-devel=(code git java-latest-openjdk-devel java-latest-openjdk-javadoc meld nodejs-yarn npm pipenv \
-  python-django-bash-completion python3-devel python3-ipython python3-virtualenv ShellCheck)
+devel=(code docker-compose git java-latest-openjdk-devel java-latest-openjdk-javadoc meld \
+  moby-engine nodejs-yarn npm pipenv python-django-bash-completion python3-devel python3-ipython \
+  python3-virtualenv ShellCheck)
 games=(knights lutris q4wine steam wine winetricks)
 hw=(hddtemp kmod-wl lm_sensors lshw radeontop stress)
 inet=(filezilla insync ktorrent remmina wireshark)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer)
-system=(akmod-VirtualBox beesu cockpit cockpit-machines cockpit-selinux dkms docker-compose \
-  exfat-utils finger gnome-nettool grsync grub-customizer htop iftop iotop kcron kernel-devel \
-  ksysguard ksystemlog moby-engine ncdu policycoreutils-gui qemu-kvm sysstat virt-manager \
-  VirtualBox VirtualBox-server)
+system=(akmod-VirtualBox beesu cockpit cockpit-machines cockpit-selinux dkms exfat-utils finger \
+  gnome-nettool grsync grub-customizer htop iftop iotop kcron kernel-devel ksysguard ksystemlog \
+  policycoreutils-gui qemu-kvm sysstat virt-manager VirtualBox VirtualBox-server)
 utils=(detox filelight gtkhash hunspell-es kate keepassxc knotes krename kruler \
-  moreutils-parallel nfoview papirus-icon-theme p7zip ranger tldr unrar vim xchm xdotool)
+  moreutils-parallel ncdu nfoview papirus-icon-theme p7zip ranger tldr unrar vim xchm xdotool)
 
 sudo dnf install "${devel[@]}" "${games[@]}" "${hw[@]}" "${inet[@]}" \
   "${multimedia[@]}" "${system[@]}" "${utils[@]}"
