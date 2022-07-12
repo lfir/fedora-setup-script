@@ -42,13 +42,13 @@ sudo dnf --refresh upgrade
 # Install package groups
 sudo dnf groupinstall Fonts LibreOffice
 
-# Install additional applications
+# Install additional applications. Array names loosely follow submenu names in KDE's app launcher
 devel=(code docker-compose git java-latest-openjdk-devel java-latest-openjdk-javadoc meld \
   moby-engine nodejs-yarn npm pipenv python-django-bash-completion python3-devel python3-ipython \
   python3-virtualenv ShellCheck)
 games=(knights lutris q4wine steam wine winetricks)
 hw=(hddtemp kmod-wl lm_sensors lshw radeontop stress)
-inet=(filezilla insync ktorrent remmina wireshark)
+inet=(discord filezilla insync ktorrent remmina wireshark)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer)
 system=(akmod-VirtualBox beesu cockpit cockpit-machines cockpit-selinux dkms exfat-utils finger \
   gnome-nettool grsync grub-customizer htop iftop iotop kcron kernel-devel ksysguard ksystemlog \
