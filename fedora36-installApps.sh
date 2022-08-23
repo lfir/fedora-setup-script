@@ -5,19 +5,6 @@ sudo dnf remove akregator dnfdragora dragon elisa-player kaddressbook kamoso kde
   kmahjongg kmail kmines kmousetool kmouth kontact korganizer kpat krdc krfb kwrite mediawriter \
   plasma-discover plasma-systemmonitor
 
-# Enable Insync repository
-sudo rpm --import https://d2t3ff60b2tol4.cloudfront.net/repomd.xml.key
-
-ins=$'[insync]
-name=insync repo
-baseurl=http://yum.insync.io/fedora/$releasever/
-gpgcheck=1
-gpgkey=https://d2t3ff60b2tol4.cloudfront.net/repomd.xml.key
-enabled=1
-metadata_expire=120m'
-
-echo "$ins" | sudo tee '/etc/yum.repos.d/insync.repo'
-
 # Enable RPMFusion repositories
 sudo sh -c "dnf install https://download1.rpmfusion.org/free/fedora/\
 rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm \
@@ -36,7 +23,7 @@ devel=(docker-compose git java-latest-openjdk-devel java-latest-openjdk-javadoc 
   python3-virtualenv ShellCheck)
 games=(knights lutris q4wine steam wine winetricks)
 hw=(hddtemp kmod-wl lm_sensors lshw radeontop stress)
-inet=(chromium discord filezilla insync ktorrent remmina wireshark)
+inet=(chromium discord filezilla ktorrent remmina wireshark)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer)
 system=(akmod-VirtualBox beesu cockpit cockpit-machines cockpit-selinux dkms exfat-utils finger \
   gnome-nettool grsync grub-customizer htop iftop iotop kcron kernel-devel ksysguard ksystemlog \
@@ -61,4 +48,3 @@ sudo systemctl enable --now cockpit.socket
 # Cleanup
 sudo dnf autoremove
 sudo dnf clean packages
-
