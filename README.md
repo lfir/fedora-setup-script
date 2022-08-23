@@ -4,7 +4,18 @@ Fedora 36 systems, using the [KDE Spin](https://spins.fedoraproject.org/kde) as 
 It also sets some configuration options useful for development work and system administration.
 
 #### Notes
+- Free useful apps available in a portable format (i.e. AppImage)
+  - [AnotherRedisDesktopManager](https://github.com/qishibo/AnotherRedisDesktopManager/releases)
+  - [DBeaver](https://github.com/dbeaver/dbeaver/releases)
+  - [Firefox](https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US)
+  - [IntelliJ IDEA community](https://www.jetbrains.com/idea/download/download-thanks.html?platform=linux&code=IIC)
+  - [NoSQLBooster4Mongo](https://nosqlbooster.com/downloads)
+  - [Postman](https://dl.pstmn.io/download/latest/linux64)
+  - [PyCharm community](https://www.jetbrains.com/pycharm/download/download-thanks.html?platform=linux&code=PCC)
+  - [Spring Boot CLI](https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started.installing.cli)
+  - [Tor Browser](https://www.torproject.org/download/)
+  - [Ventoy](https://github.com/ventoy/Ventoy/releases)
+  - [VSCodium](https://github.com/VSCodium/vscodium/releases)
+
 - Repositories that use $releasever need to be checked before performing a
 system upgrade to see if packages for target release are available.
-  - http://yum.insync.io/
-
