@@ -7,6 +7,7 @@ It also sets some configuration options useful for development work and system a
 - Free useful apps available in a portable format (i.e. AppImage)
   - [AnotherRedisDesktopManager](https://github.com/qishibo/AnotherRedisDesktopManager/releases)
   - [DBeaver](https://github.com/dbeaver/dbeaver/releases)
+  - [Eclipse Memory Analyzer Tool stand-alone](https://www.eclipse.org/mat/downloads.php)
   - [Firefox](https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US)
   - [IntelliJ IDEA community](https://www.jetbrains.com/idea/download/download-thanks.html?platform=linux&code=IIC)
   - [NoSQLBooster4Mongo](https://nosqlbooster.com/downloads)
@@ -19,3 +20,4 @@ It also sets some configuration options useful for development work and system a
 
 - Repositories that use $releasever need to be checked before performing a
 system upgrade to see if packages for target release are available.
+
