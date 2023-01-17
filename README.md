@@ -5,6 +5,7 @@ It also sets some configuration options useful for development work and system a
 
 #### Notes
 - Free useful apps available in a portable format (i.e. AppImage)
+  - [7zip console version](https://sourceforge.net/projects/sevenzip)
   - [AnotherRedisDesktopManager](https://github.com/qishibo/AnotherRedisDesktopManager/releases)
   - [DBeaver](https://github.com/dbeaver/dbeaver/releases)
   - [Eclipse Memory Analyzer Tool stand-alone](https://www.eclipse.org/mat/downloads.php)
