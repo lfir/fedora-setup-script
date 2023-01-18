@@ -19,9 +19,8 @@ sudo dnf groupinstall Fonts LibreOffice
 
 # Install additional applications. Array names loosely follow submenu names in KDE's app launcher
 devel=(docker-compose git java-latest-openjdk-devel java-latest-openjdk-javadoc meld \
-  moby-engine nodejs-yarn npm pipenv python-django-bash-completion python3-devel python3-ipython \
-  python3-virtualenv ShellCheck)
-games=(knights lutris q4wine steam wine winetricks)
+  moby-engine nodejs-yarn npm pipenv python3-devel python3-ipython python3-virtualenv ShellCheck)
+games=(lutris q4wine steam wine winetricks)
 hw=(hddtemp kmod-wl lm_sensors lshw radeontop stress)
 inet=(chromium filezilla ktorrent remmina wireshark)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer)
