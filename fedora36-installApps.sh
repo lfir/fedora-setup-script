@@ -28,7 +28,7 @@ multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer)
 system=(akmod-VirtualBox beesu cockpit cockpit-machines cockpit-selinux dkms exfat-utils finger \
   gnome-nettool grsync grub-customizer htop iftop iotop kcron kernel-devel ksysguard ksystemlog \
   policycoreutils-gui qemu-kvm sysstat virt-manager VirtualBox VirtualBox-server)
-utils=(detox filelight gtkhash hunspell-es kate keepassxc knotes krename kruler \
+utils=(detox filelight gtkhash hunspell-es kate keepassxc kinfocenter knotes krename kruler \
   moreutils-parallel ncdu nfoview papirus-icon-theme p7zip ranger tldr unrar vim xchm xdotool)
 
 sudo dnf install "${devel[@]}" "${games[@]}" "${hw[@]}" "${inet[@]}" \
