@@ -7,6 +7,7 @@ It also sets some configuration options useful for development work and system a
 - Free useful apps available in a portable format (i.e. AppImage)
   - [7zip console version](https://sourceforge.net/projects/sevenzip)
   - [AnotherRedisDesktopManager](https://github.com/qishibo/AnotherRedisDesktopManager/releases)
+  - [Apache Maven](https://maven.apache.org/download.cgi)
   - [DBeaver](https://github.com/dbeaver/dbeaver/releases)
   - [Eclipse Memory Analyzer Tool stand-alone](https://www.eclipse.org/mat/downloads.php)
   - [Firefox](https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US)
