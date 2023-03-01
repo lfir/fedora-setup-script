@@ -34,9 +34,6 @@ utils=(clamav clamav-update detox filelight gtkhash hunspell-es kate keepassxc k
 sudo dnf install "${devel[@]}" "${games[@]}" "${hw[@]}" "${inet[@]}" \
   "${multimedia[@]}" "${system[@]}" "${utils[@]}"
 
-# Enable Flathub repository
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-
 # Add current user to administration groups
 for group in docker libvirt vboxsf vboxusers ; do
   getent group "$group" || sudo groupadd "$group" ; sudo groupmems -a "$USER" -g "$group"
