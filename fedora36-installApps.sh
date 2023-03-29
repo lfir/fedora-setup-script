@@ -20,7 +20,7 @@ sudo dnf groupinstall Fonts LibreOffice
 devel=(docker-compose git java-latest-openjdk-devel java-latest-openjdk-javadoc meld \
   moby-engine nodejs-yarn npm pipenv python3-devel python3-ipython python3-virtualenv ShellCheck)
 games=(lutris q4wine steam wine winetricks)
-hw=(hddtemp kmod-wl lm_sensors lshw radeontop stress)
+hw=(hddtemp kmod-wl lm_sensors lshw nvtop stress)
 inet=(chromium filezilla ktorrent remmina wireshark)
 multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer)
 system=(akmod-VirtualBox beesu cockpit cockpit-machines cockpit-selinux dkms exfat-utils finger \
