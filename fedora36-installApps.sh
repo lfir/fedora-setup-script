@@ -22,7 +22,7 @@ devel=(docker-compose git java-latest-openjdk-devel java-latest-openjdk-javadoc 
 games=(lutris q4wine steam wine winetricks)
 hw=(hddtemp kmod-wl lm_sensors lshw nvtop stress)
 inet=(chromium filezilla ktorrent remmina wireshark)
-multimedia=(asciinema bchunk ffmpeg simplescreenrecorder smplayer)
+multimedia=(asciinema bchunk simplescreenrecorder smplayer)
 system=(akmod-VirtualBox beesu cockpit cockpit-machines cockpit-selinux dkms exfat-utils finger \
   gnome-nettool grsync grub-customizer htop iftop iotop kcron kernel-devel ksysguard ksystemlog \
   policycoreutils-gui qemu-kvm sysstat virt-manager VirtualBox VirtualBox-server)
