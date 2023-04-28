@@ -2,7 +2,8 @@
 
 # Uninstall unused applications present in the KDE Spin. Add or remove items as needed
 sudo dnf remove akregator dnfdragora dragon elisa-player kaddressbook kde-connect kmag \
-  kmahjongg kmail kmines kmouth korganizer kpat krdc krfb kwrite plasma-systemmonitor
+  kmahjongg kmail kmines kmouth korganizer kpat krdc krfb kwrite plasma-systemmonitor \
+  plasma-welcome
 
 # Enable RPMFusion repositories
 sudo sh -c "dnf install https://download1.rpmfusion.org/free/fedora/\
