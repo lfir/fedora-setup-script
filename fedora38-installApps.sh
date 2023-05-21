@@ -3,7 +3,7 @@
 # Uninstall unused applications present in the KDE Spin. Add or remove items as needed
 sudo dnf remove akregator dnfdragora dragon elisa-player kaddressbook kde-connect kmag \
   kmahjongg kmail kmines kmouth korganizer kpat krdc krfb kwrite plasma-systemmonitor \
-  plasma-welcome
+  plasma-welcome spectacle
 
 # Enable RPMFusion repositories
 sudo sh -c "dnf install https://download1.rpmfusion.org/free/fedora/\
@@ -27,7 +27,7 @@ multimedia=(asciinema bchunk simplescreenrecorder smplayer)
 system=(akmod-VirtualBox beesu cockpit cockpit-machines cockpit-selinux dkms exfat-utils finger \
   gnome-nettool grsync grub-customizer htop iftop iotop kcron kernel-devel ksysguard ksystemlog \
   policycoreutils-gui qemu-kvm sysstat virt-manager VirtualBox VirtualBox-server)
-utils=(clamav clamav-update detox filelight gtkhash hunspell-es kate keepassxc knotes \
+utils=(clamav clamav-update detox filelight flameshot gtkhash hunspell-es kate keepassxc \
   krename kruler moreutils-parallel ncdu nfoview papirus-icon-theme p7zip ranger tldr unrar vim \
   xchm xdotool)
 
