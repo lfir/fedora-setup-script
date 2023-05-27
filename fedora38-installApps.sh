@@ -28,7 +28,7 @@ system=(akmod-VirtualBox beesu cockpit cockpit-machines cockpit-selinux dkms exf
   gnome-nettool grsync grub-customizer htop iftop iotop kcron kernel-devel ksysguard ksystemlog \
   policycoreutils-gui qemu-kvm sysstat virt-manager VirtualBox VirtualBox-server)
 utils=(clamav clamav-update detox filelight flameshot gtkhash hunspell-es kate keepassxc \
-  krename kruler moreutils-parallel ncdu nfoview papirus-icon-theme p7zip ranger tldr unrar vim \
+  krename kruler moreutils-parallel ncdu nfoview papirus-icon-theme ranger tldr unrar vim \
   xchm xdotool)
 
 sudo dnf install "${devel[@]}" "${games[@]}" "${hw[@]}" "${inet[@]}" \
