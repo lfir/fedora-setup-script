@@ -1,6 +1,6 @@
 ## Fedora setup script
 Bash script that installs most KDE applications and many development tools on
-Fedora 38 systems, using the [KDE Spin](https://spins.fedoraproject.org/kde) as a starting point.
+Fedora 40 systems, using the [KDE Spin](https://fedoraproject.org/spins/kde) as a starting point.
 It also sets some configuration options useful for development work and system administration.
 
 #### Notes
