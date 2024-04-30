@@ -37,7 +37,7 @@ sudo dnf install "${devel[@]}" "${games[@]}" "${hw[@]}" "${inet[@]}" \
 flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
 # Add current user to administration groups
-for group in docker libvirt vboxsf vboxusers ; do
+for group in docker libvirt vboxusers ; do
   getent group "$group" || sudo groupadd "$group" ; sudo groupmems -a "$USER" -g "$group"
 done
 
