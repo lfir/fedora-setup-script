@@ -1,5 +1,5 @@
 ## Fedora setup script
-Bash script that installs most KDE applications and many development tools on
+Ansible playbook that installs most KDE applications and many development tools on
 Fedora 40 systems, using the [KDE Spin](https://fedoraproject.org/spins/kde) as a starting point.
 It also sets some configuration options useful for development work and system administration.
 
@@ -23,3 +23,21 @@ It also sets some configuration options useful for development work and system a
 - Repositories that use $releasever need to be checked before performing a
 system upgrade to see if packages for target release are available.
 
+- Run commands
+  - Prerequisites
+
+    sudo dnf install ansible
+  - Default
+
+    ansible-playbook -K F40_post_install.yaml
+  - Non-interactive
+
+    ansible-playbook F40_post_install.yaml -e "ansible_become_pass=pwd"
+    
+    Might fail with empty sudo password like in the live session. A password can be set for the liveuser with command:
+    
+    sudo passwd liveuser
+    
+    Or disable sudo password for liveuser with sudo visudo and append:
+    
+    liveuser ALL=(ALL) NOPASSWD:ALL
