@@ -29,10 +29,10 @@ system upgrade to see if packages for target release are available.
     sudo dnf install ansible
   - Default
 
-    ansible-playbook -K F40_post_install.yaml
+    ansible-playbook -K F40_post_install.yml
   - Non-interactive
 
-    ansible-playbook F40_post_install.yaml -e "ansible_become_pass=pwd"
+    ansible-playbook F40_post_install.yml -e "ansible_become_pass=pwd"
     
     Might fail with empty sudo password like in the live session. A password can be set for the liveuser with command:
     
