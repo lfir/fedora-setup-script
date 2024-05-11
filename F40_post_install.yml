@@ -42,7 +42,7 @@
           - python3-virtualenv
           - ShellCheck
           - vim
-          - xdotool # Interact with X11 from shell scripts          
+          - xdotool # Interact with X11 from shell scripts
           - yarnpkg
     - name: Install Gaming / emulation apps
       package:
@@ -60,14 +60,14 @@
         name:
           - dkms
           - hddtemp
-          - htop          
+          - htop
           - iftop
           - iotop
           - kernel-devel
           - kmod-wl
           - lm_sensors
           - lshw
-          - nvtop          
+          - nvtop
           - sysstat
     - name: Install Internet / networking applications
       package:
