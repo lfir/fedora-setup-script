@@ -9,7 +9,7 @@
       - vboxsf
       - vboxusers
 
-  become: yes      
+  become: yes
   tasks:
     # REPOSITORIES
     - name: Import GPG keys into the RPM DB
