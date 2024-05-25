@@ -149,6 +149,11 @@
     - name: Autoremove unneeded packages installed as dependencies
       package:
         autoremove: yes
+    - name: Install Flatpak management tools
+      community.general.flatpak:
+        name:
+          - com.github.tchx84.Flatseal
+          - io.github.flattool.Warehouse
     # GROUPS
     - name: Ensure admin groups exist
       group:
