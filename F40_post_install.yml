@@ -113,6 +113,7 @@
           - gtkhash
           - hunspell-es # Spanish files for LO's spell checker
           - kate
+          - kbackup
           - keepassxc
           - krename
           - kruler
