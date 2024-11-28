@@ -78,6 +78,7 @@
           - gnome-nettool
           - ktorrent
           - remmina
+          - wireguard-tools
           - wireshark
     - name: Install Multimedia applications
       package:
