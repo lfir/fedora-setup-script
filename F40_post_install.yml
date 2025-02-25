@@ -42,13 +42,11 @@
           - python3-virtualenv
           - ShellCheck
           - vim
-          - xdotool # Interact with X11 from shell scripts
           - yarnpkg
-    - name: Install Gaming / emulation apps
+    - name: Install Games / emulation apps
       package:
         name:
           - q4wine
-          - steam
           - wine
           - winetricks
     - name: Install Graphics apps
@@ -77,6 +75,7 @@
           - finger
           - gnome-nettool
           - ktorrent
+          - NetworkManager-tui
           - remmina
           - wireguard-tools
           - wireshark
