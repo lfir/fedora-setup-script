@@ -95,7 +95,6 @@
           - cockpit
           - cockpit-machines
           - cockpit-selinux
-          - exfatprogs
           - grsync
           - grub-customizer
           - kcron
@@ -136,7 +135,6 @@
           - kmail
           - kmines
           - kmouth
-          - konversation
           - korganizer
           - kpat
           - krdc
