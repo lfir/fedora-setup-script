@@ -96,7 +96,6 @@
           - cockpit-machines
           - cockpit-selinux
           - grsync
-          - grub-customizer
           - kcron
           - ksystemlog
           - policycoreutils-gui # Selinux policy GUI
