@@ -1,10 +1,13 @@
 ## Fedora setup script
+
 Ansible playbook that installs most KDE applications and many development tools on
-Fedora 40 systems, using the [KDE Spin](https://fedoraproject.org/spins/kde) as a starting point.
+Fedora 42 systems, using the [KDE Edition](https://fedoraproject.org/kde) as a starting point.
 It also sets some configuration options useful for development work and system administration.
 
 #### Notes
+
 - Free useful apps available in a portable format (i.e. AppImage)
+
   - [7zip console version](https://sourceforge.net/projects/sevenzip)
   - [AnotherRedisDesktopManager](https://github.com/qishibo/AnotherRedisDesktopManager/releases)
   - [Apache Maven](https://maven.apache.org/download.cgi)
@@ -21,23 +24,26 @@ It also sets some configuration options useful for development work and system a
   - [VSCodium](https://github.com/VSCodium/vscodium/releases)
 
 - Repositories that use $releasever need to be checked before performing a
-system upgrade to see if packages for target release are available.
+  system upgrade to see if packages for target release are available.
 
 - Run commands
+
   - Prerequisites
 
     sudo dnf install ansible
+
   - Default
 
-    ansible-playbook -K F40_post_install.yml
+    ansible-playbook -K F42_post_install.yml
+
   - Non-interactive
 
-    ansible-playbook F40_post_install.yml -e "ansible_become_pass=pwd"
-    
+    ansible-playbook F42_post_install.yml -e "ansible_become_pass=pwd"
+
     Might fail with empty sudo password like in the live session. A password can be set for the liveuser with command:
-    
+
     sudo passwd liveuser
-    
+
     Or disable sudo password for liveuser with sudo visudo and append:
-    
+
     liveuser ALL=(ALL) NOPASSWD:ALL
