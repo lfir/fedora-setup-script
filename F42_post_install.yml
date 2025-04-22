@@ -115,7 +115,6 @@
           - duf
           - gtkhash
           - hunspell-es
-          - kate
           - kbackup
           - keepassxc
           - krename
@@ -144,7 +143,6 @@
           - krdc
           - krfb
           - ktnef
-          - kwrite
           - neochat
           - plasma-welcome
           - skanpage
