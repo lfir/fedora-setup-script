@@ -47,3 +47,9 @@ It also sets some configuration options useful for development work and system a
     Or disable sudo password for liveuser with sudo visudo and append:
 
     liveuser ALL=(ALL) NOPASSWD:ALL
+
+  - GUI (partial)
+
+    ./package-selector_gui.sh
+
+    Allows easier selection of packages to install and remove.

@@ -10,6 +10,7 @@
       - vboxusers
 
   become: yes
+  ignore_errors: yes
   tasks:
     # REPOSITORIES
     - name: Import GPG keys into the RPM DB
