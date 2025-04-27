@@ -2,7 +2,7 @@
 # This script uses Zenity to create a GUI for selecting packages to install or uninstall
 # from a YAML file. It uses Ansible to apply the changes based on the user's selections.
 
-# Check if ansible and zenity are installed
+# Check if ansible and zenity are installed and set the playbook file
 if ! command -v ansible &> /dev/null; then
     echo 'Error: ansible is not installed.'
     exit 1
@@ -11,31 +11,50 @@ if ! command -v zenity &> /dev/null; then
     echo 'Error: zenity is not installed.'
     exit 1
 fi
+YML_FILE=$(find . -name '*.yml')
+if [[ -z "$YML_FILE" ]]; then
+    echo 'Error: No .yml file found in the current directory.'
+    exit 1
+fi
 
-YML_FILE='F42_post_install.yml'
-# Line ranges with package names to be installed
-R0S=34
-R0E=47
-R1S=$((R0E + 4))
-R1E=53
-R2S=$((R1E + 4))
-R2E=58
-R3S=$((R2E + 4))
-R3E=72
-R4S=$((R3E + 4))
-R4E=86
-R5S=$((R4E + 4))
-R5E=92
-R6S=$((R5E + 4))
-R6E=111
-R7S=$((R6E + 4))
-R7E=129
-# Line range with package names to be removed
-R8S=$((R7E + 4))
-R8E=150
 # Range with Flatpak names to be installed
-R9S=$((R8E + 8))
-R9E=159
+R9S=$(( $(grep -n 'name: Install Flatpak' "$YML_FILE" | cut -d: -f1) + 3 ))
+R9E=$(( $(grep -n '# GROUPS' "$YML_FILE" | cut -d: -f1) - 1 ))
+# Line range with package names to be removed
+R8AUX=$(grep -n 'name: Uninstall unused applications' "$YML_FILE" | cut -d: -f1)
+R8S=$((R8AUX + 3))
+R8E=$(( $(grep -n 'name: Autoremove unneeded packages' "$YML_FILE" | cut -d: -f1) - 2 ))
+# Line ranges with package names to be installed
+R7AUX=$(grep -n 'name: Install Utilities / misc. apps' "$YML_FILE" | cut -d: -f1)
+R7S=$((R7AUX + 3))
+R7E=$((R8AUX - 1))
+
+R6AUX=$(grep -n 'name: Install System tools / apps' "$YML_FILE" | cut -d: -f1)
+R6S=$((R6AUX + 3))
+R6E=$((R7AUX - 1))
+
+R5AUX=$(grep -n 'name: Install Multimedia applications' "$YML_FILE" | cut -d: -f1)
+R5S=$((R5AUX + 3))
+R5E=$((R6AUX - 1))
+
+R4AUX=$(grep -n 'name: Install Internet / networking applications' "$YML_FILE" | cut -d: -f1)
+R4S=$((R4AUX  + 3))
+R4E=$((R5AUX - 1))
+
+R3AUX=$(grep -n 'name: Install Hardware drivers & monitoring tools' "$YML_FILE" | cut -d: -f1)
+R3S=$((R3AUX + 3))
+R3E=$((R4AUX - 1))
+
+R2AUX=$(grep -n 'name: Install Graphics apps' "$YML_FILE" | cut -d: -f1)
+R2S=$((R2AUX + 3))
+R2E=$((R3AUX - 1))
+
+R1AUX=$(grep -n 'name: Install Games / emulation apps' "$YML_FILE" | cut -d: -f1)
+R1S=$((R1AUX + 3))
+R1E=$((R2AUX - 1))
+
+R0S=$(( $(grep -n 'name: Install Development tools' "$YML_FILE" | cut -d: -f1) + 3 ))
+R0E=$((R1AUX - 1))
 
 # Parse package names from specific line ranges in the YAML file
 NAME_PATTERN='s/^\s*-\s*//'
