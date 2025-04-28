@@ -12,12 +12,14 @@ It also sets some configuration options useful for development work and system a
   - [AnotherRedisDesktopManager](https://github.com/qishibo/AnotherRedisDesktopManager/releases)
   - [Apache Maven](https://maven.apache.org/download.cgi)
   - [DBeaver](https://github.com/dbeaver/dbeaver/releases)
+  - [DbGate](https://github.com/dbgate/dbgate/releases)
   - [Eclipse Memory Analyzer Tool stand-alone](https://www.eclipse.org/mat/downloads.php)
   - [Firefox](https://download.mozilla.org/?product=firefox-latest-ssl&os=linux64&lang=en-US)
   - [IntelliJ IDEA community](https://www.jetbrains.com/idea/download/download-thanks.html?platform=linux&code=IIC)
   - [NoSQLBooster4Mongo](https://nosqlbooster.com/downloads)
   - [Postman](https://dl.pstmn.io/download/latest/linux64)
   - [PyCharm community](https://www.jetbrains.com/pycharm/download/download-thanks.html?platform=linux&code=PCC)
+  - [SourceGit](https://github.com/sourcegit-scm/sourcegit/releases)
   - [Spring Boot CLI](https://docs.spring.io/spring-boot/docs/current/reference/html/getting-started.html#getting-started.installing.cli)
   - [Tor Browser](https://www.torproject.org/download/)
   - [Ventoy](https://github.com/ventoy/Ventoy/releases)
@@ -30,26 +32,41 @@ It also sets some configuration options useful for development work and system a
 
   - Prerequisites
 
+    ```
     sudo dnf install ansible
+    ```
 
   - Default
 
+    ```
     ansible-playbook -K F42_post_install.yml
+    ```
 
   - Non-interactive
 
+    ```
     ansible-playbook F42_post_install.yml -e "ansible_become_pass=pwd"
+    ```
 
     Might fail with empty sudo password like in the live session. A password can be set for the liveuser with command:
 
+    ```
     sudo passwd liveuser
+    ```
 
-    Or disable sudo password for liveuser with sudo visudo and append:
+    Or disable sudo password for liveuser with `sudo visudo` and append:
 
+    ```
     liveuser ALL=(ALL) NOPASSWD:ALL
+    ```
 
   - GUI (partial)
 
+    ```
     ./package-selector_gui.sh
+    ```
 
     Allows easier selection of packages to install and remove.
+
+    If parts of the playbook between _"# PACKAGES..."_ and _"# GROUPS"_ are reordered or modified besides adding and removing
+    package names then this script will probably need to be updated too in order for it to get the target line numbers right.
