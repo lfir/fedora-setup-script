@@ -17,43 +17,47 @@ if [[ -z "$YML_FILE" ]]; then
     exit 1
 fi
 
-# Range with Flatpak names to be installed
-R9S=$(( $(grep -n 'name: Install Flatpak' "$YML_FILE" | cut -d: -f1) + 3 ))
-R9E=$(( $(grep -n '# GROUPS' "$YML_FILE" | cut -d: -f1) - 1 ))
-# Line range with package names to be removed
-R8AUX=$(grep -n 'name: Uninstall unused applications' "$YML_FILE" | cut -d: -f1)
+# Line range with Flatpak names to be installed
+function getLineNumber() {
+    grep -n "$1" "$YML_FILE" | cut -d: -f1
+}
+
+R9S=$(( $(getLineNumber 'name: Install Flatpak') + 3 ))
+R9E=$(( $(getLineNumber '# GROUPS') - 1 ))
+# Range with package names to be removed
+R8AUX=$(getLineNumber 'name: Uninstall unused applications')
 R8S=$((R8AUX + 3))
-R8E=$(( $(grep -n 'name: Autoremove unneeded packages' "$YML_FILE" | cut -d: -f1) - 2 ))
+R8E=$(( $(getLineNumber 'name: Autoremove unneeded packages') - 2 ))
 # Line ranges with package names to be installed
-R7AUX=$(grep -n 'name: Install Utilities / misc. apps' "$YML_FILE" | cut -d: -f1)
+R7AUX=$(getLineNumber 'name: Install Utilities / misc. apps')
 R7S=$((R7AUX + 3))
 R7E=$((R8AUX - 1))
 
-R6AUX=$(grep -n 'name: Install System tools / apps' "$YML_FILE" | cut -d: -f1)
+R6AUX=$(getLineNumber 'name: Install System tools / apps')
 R6S=$((R6AUX + 3))
 R6E=$((R7AUX - 1))
 
-R5AUX=$(grep -n 'name: Install Multimedia applications' "$YML_FILE" | cut -d: -f1)
+R5AUX=$(getLineNumber 'name: Install Multimedia applications')
 R5S=$((R5AUX + 3))
 R5E=$((R6AUX - 1))
 
-R4AUX=$(grep -n 'name: Install Internet / networking applications' "$YML_FILE" | cut -d: -f1)
+R4AUX=$(getLineNumber 'name: Install Internet / networking applications')
 R4S=$((R4AUX  + 3))
 R4E=$((R5AUX - 1))
 
-R3AUX=$(grep -n 'name: Install Hardware drivers & monitoring tools' "$YML_FILE" | cut -d: -f1)
+R3AUX=$(getLineNumber 'name: Install Hardware drivers & monitoring tools')
 R3S=$((R3AUX + 3))
 R3E=$((R4AUX - 1))
 
-R2AUX=$(grep -n 'name: Install Graphics apps' "$YML_FILE" | cut -d: -f1)
+R2AUX=$(getLineNumber 'name: Install Graphics apps')
 R2S=$((R2AUX + 3))
 R2E=$((R3AUX - 1))
 
-R1AUX=$(grep -n 'name: Install Games / emulation apps' "$YML_FILE" | cut -d: -f1)
+R1AUX=$(getLineNumber 'name: Install Games / emulation apps')
 R1S=$((R1AUX + 3))
 R1E=$((R2AUX - 1))
 
-R0S=$(( $(grep -n 'name: Install Development tools' "$YML_FILE" | cut -d: -f1) + 3 ))
+R0S=$(( $(getLineNumber 'name: Install Development tools') + 3 ))
 R0E=$((R1AUX - 1))
 
 # Parse package names from specific line ranges in the YAML file
