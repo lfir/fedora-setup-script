@@ -157,6 +157,7 @@
         name:
           - com.github.tchx84.Flatseal
           - io.github.flattool.Warehouse
+          - it.mijorus.gearlever
     # GROUPS
     - name: Ensure admin groups exist
       group:
