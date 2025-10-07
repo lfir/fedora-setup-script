@@ -1,0 +1,91 @@
+# Development tools
+docker-compose
+git
+gitui
+java-latest-openjdk-devel
+java-latest-openjdk-javadoc
+meld
+moby-engine
+npm
+python3-devel
+python3-ipython
+python3-virtualenv
+ShellCheck
+vim
+yarnpkg
+
+# Games / emulation apps
+q4wine
+wine
+winetricks
+
+# Graphics apps
+chafa
+flameshot
+
+# Hardware drivers & monitoring tools
+btop
+dkms
+hddtemp
+htop
+iotop
+kernel-devel
+kmod-wl
+lm_sensors
+lshw
+nvtop
+sysstat
+
+# Internet / networking applications
+chromium
+filezilla
+finger
+gnome-nettool
+iftop
+iptraf-ng
+ktorrent
+NetworkManager-tui
+remmina
+speedtest-cli
+wireguard-tools
+wireshark
+
+# Multimedia applications
+asciinema
+simplescreenrecorder
+smplayer
+
+# System tools / apps
+akmod-VirtualBox
+beesu
+clamav
+clamav-update
+cockpit
+cockpit-machines
+cockpit-selinux
+grsync
+kcron
+ksystemlog
+policycoreutils-gui
+qemu-kvm
+s-tui
+virt-manager
+VirtualBox
+VirtualBox-server
+
+# Utilities / misc. apps
+detox
+duf
+gtkhash
+hunspell-es
+kbackup
+keepassxc
+krename
+kruler
+moreutils-parallel
+ncdu
+nfoview
+papirus-icon-theme
+ranger
+tldr
+unrar

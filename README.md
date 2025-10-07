@@ -1,8 +1,23 @@
 ## Fedora setup script
 
-Ansible playbook that installs most KDE applications and many development tools on
-Fedora 42 systems, using the [KDE Edition](https://fedoraproject.org/kde) as a starting point.
+Java (21+) program that installs most KDE applications and many development tools on
+Fedora 42 systems, using the [KDE Edition](https://fedoraproject.org/kde),
+which comes with Java 21 preinstalled, as a starting point.
 It also sets some configuration options useful for development work and system administration.
+
+### Run commands
+
+- App
+
+  ```
+  java src/main/java/cf/maybelambda/fedora/PostInstallUpdater.java
+  ```
+
+- Tests
+
+  ```
+  ./mvnw test
+  ```
 
 #### Notes
 
@@ -28,45 +43,3 @@ It also sets some configuration options useful for development work and system a
 - Repositories that use $releasever need to be checked before performing a
   system upgrade to see if packages for target release are available.
 
-- Run commands
-
-  - Prerequisites
-
-    ```
-    sudo dnf install ansible
-    ```
-
-  - Default
-
-    ```
-    ansible-playbook -K F42_post_install.yml
-    ```
-
-  - Non-interactive
-
-    ```
-    ansible-playbook F42_post_install.yml -e "ansible_become_pass=pwd"
-    ```
-
-    Might fail with empty sudo password like in the live session. A password can be set for the liveuser with command:
-
-    ```
-    sudo passwd liveuser
-    ```
-
-    Or disable sudo password for liveuser with `sudo visudo` and append:
-
-    ```
-    liveuser ALL=(ALL) NOPASSWD:ALL
-    ```
-
-  - GUI (partial)
-
-    ```
-    ./package-selector_gui.sh
-    ```
-
-    Allows easier selection of packages to install and remove.
-
-    If parts of the playbook between _"# PACKAGES..."_ and _"# GROUPS"_ are reordered or modified besides adding and removing
-    package names then this script will probably need to be updated too in order for it to get the target line numbers right.
