@@ -7,6 +7,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,15 +31,23 @@ public class PostInstallUpdater {
     private static final String DNF_INSTALL_FILE = "dnf-install.cf";
     private static final String DNF_REMOVE_FILE = "dnf-remove.cf";
     private static final String FLATPAK_INSTALL_FILE = "flatpak-install.cf";
-    public static final String RESET  = "\u001B[0m";
-    public static final String YELLOW = "\u001B[33m";
+
+    private static final String RESET  = "\u001B[0m";
+    private static final String YELLOW = "\u001B[33m";
+
+    private static boolean dryRun = false;
 
     public static void main(String[] args) {
+        setDryRun(Arrays.asList(args).contains("--dry-run"));
         List<String> dnfInstallPackages = loadPackageNamesFrom(DNF_INSTALL_FILE);
         List<String> dnfRemovePackages = loadPackageNamesFrom(DNF_REMOVE_FILE);
         List<String> flatpakInstallPackages = loadPackageNamesFrom(FLATPAK_INSTALL_FILE);
         Scanner scanner = new Scanner(System.in);
+
         System.out.println("Fedora Post Install Actions\n");
+        if (isDryRun()) {
+            System.out.println("---[Dry Run Mode] Commands will not be executed.---\n");
+        }
 
         // 1. Install RPMFusion repos
         if (confirm(scanner, "Install RPMFusion repos?")) {
@@ -60,7 +69,6 @@ public class PostInstallUpdater {
         // 2. DNF install packages
         if (confirm(scanner, "Install additional packages with DNF?")) {
             List<String> filtered = promptForExclusions(dnfInstallPackages, scanner);
-
             String[] cmd = new String[filtered.size() + 5];
             cmd[0] = "sudo";
             cmd[1] = "dnf";
@@ -73,7 +81,7 @@ public class PostInstallUpdater {
             runCommand(cmd);
         }
 
-        // 3. DNF remove unneeded packages
+        // 3. DNF remove packages
         if (confirm(scanner, "Remove all DNF packages marked for removal?")) {
             List<String> filtered = promptForExclusions(dnfRemovePackages, scanner);
             String[] cmd = new String[filtered.size() + 4];
@@ -85,14 +93,12 @@ public class PostInstallUpdater {
                 cmd[4 + i] = filtered.get(i);
             }
             runCommand(cmd);
-
             runCommand(new String[]{"sudo", "dnf", "autoremove", "-y"});
         }
 
         // 4. Flatpak install apps
         if (confirm(scanner, "Install Flatpak apps?")) {
             runCommand(new String[]{"flatpak", "remote-add", "--if-not-exists", flatpakRemoteName, flatpakRemoteUrl});
-
             List<String> filtered = promptForExclusions(flatpakInstallPackages, scanner);
             String[] cmd = new String[filtered.size() + 4];
             cmd[0] = "flatpak";
@@ -124,7 +130,15 @@ public class PostInstallUpdater {
             runCommand(new String[]{"sudo", "systemctl", "enable", "--now", "cockpit.socket"});
         }
 
-        System.out.println("\nAll actions completed.");
+        System.out.println("\nAll actions completed. Goodbye.");
+    }
+
+    static boolean isDryRun() {
+        return dryRun;
+    }
+
+    static void setDryRun(boolean dryRun) {
+        PostInstallUpdater.dryRun = dryRun;
     }
 
     static boolean confirm(Scanner scanner, String prompt) {
@@ -138,14 +152,19 @@ public class PostInstallUpdater {
     }
 
     static int runCommand(String[] command) {
+        System.out.println("Executing shell command: " + String.join(" ", command));
+        if (isDryRun()) {
+            System.out.println("Dry-run: command not executed.");
+            return 0;
+        }
+
         int exitCode = -1;
         try {
             ProcessBuilder pb = createProcessBuilder(command);
             pb.redirectErrorStream(true);
-            System.out.println("Executing shell command: " + String.join(" ", command));
             Process process = pb.start();
-            System.out.println("Command output:");
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            System.out.println("Command output:");
             String line;
             while ((line = reader.readLine()) != null) {
                 System.out.println(YELLOW + line + RESET);
@@ -185,8 +204,7 @@ public class PostInstallUpdater {
         String excludeInput = scanner.nextLine().trim();
         Set<Integer> excludeIndexes = new HashSet<>();
         if (excludeInput.matches("^\\d+$|^(\\d+,)+\\d$")) {
-            String[] parts = excludeInput.split(",");
-            for (String part : parts) {
+            for (String part : excludeInput.split(",")) {
                 try {
                     int idx = Integer.parseInt(part.trim());
                     if (idx >= 1 && idx <= packages.size()) {
@@ -195,7 +213,6 @@ public class PostInstallUpdater {
                 } catch (NumberFormatException ignored) {}
             }
         }
-
         List<String> filtered = new ArrayList<>();
         for (int i = 0; i < packages.size(); i++) {
             if (!excludeIndexes.contains(i)) {

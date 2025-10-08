@@ -150,4 +150,19 @@ class PostInstallUpdaterTests {
             assertEquals(-1, exitCode);
         }
     }
+
+    @Test
+    void runCommandSkipsExecutionInDryRunMode() {
+        PostInstallUpdater.setDryRun(true);
+        try (MockedStatic<PostInstallUpdater> updaterMock = Mockito.mockStatic(PostInstallUpdater.class, CALLS_REAL_METHODS)) {
+            updaterMock.when(() -> PostInstallUpdater.createProcessBuilder(any(String[].class)))
+                .thenThrow(new AssertionError("Should not create ProcessBuilder in dry-run mode"));
+
+            int exitCode = PostInstallUpdater.runCommand(new String[]{"fake", "cmd"});
+
+            assertEquals(0, exitCode);
+        } finally {
+            PostInstallUpdater.setDryRun(false);
+        }
+    }
 }
