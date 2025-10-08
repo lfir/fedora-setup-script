@@ -7,7 +7,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -143,7 +142,7 @@ public class PostInstallUpdater {
         try {
             ProcessBuilder pb = createProcessBuilder(command);
             pb.redirectErrorStream(true);
-            System.out.println("Executing shell command: " + Arrays.stream(command).reduce((a, b) -> a.concat(" ").concat(b)).get());
+            System.out.println("Executing shell command: " + String.join(" ", command));
             Process process = pb.start();
             System.out.println("Command output:");
             BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
@@ -185,7 +184,7 @@ public class PostInstallUpdater {
 
         String excludeInput = scanner.nextLine().trim();
         Set<Integer> excludeIndexes = new HashSet<>();
-        if (!excludeInput.isEmpty()) {
+        if (excludeInput.matches("^\\d+$|^(\\d+,)+\\d$")) {
             String[] parts = excludeInput.split(",");
             for (String part : parts) {
                 try {
