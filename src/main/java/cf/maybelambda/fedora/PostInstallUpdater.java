@@ -46,7 +46,7 @@ public class PostInstallUpdater {
 
         System.out.println("Fedora Post Install Actions\n");
         if (isDryRun()) {
-            System.out.println("---[Dry Run Mode] Commands will not be executed.---\n");
+            System.out.println("---[Dry Run Mode] Shell Commands will not be executed.---\n");
         }
 
         // 1. Install RPMFusion repos

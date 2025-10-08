@@ -19,6 +19,8 @@ It also sets some configuration options useful for development work and system a
   ./mvnw test
   ```
 
+Both should be used as a non-root user. The app invokes _sudo_ as needed.
+
 #### Notes
 
 - Free useful apps available in a portable format (i.e. AppImage)
