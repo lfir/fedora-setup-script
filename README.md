@@ -5,6 +5,27 @@ Fedora 42 systems, using the [KDE Edition](https://fedoraproject.org/kde),
 which comes with Java 21 preinstalled, as a starting point.
 It also sets some configuration options useful for development work and system administration.
 
+Current actions that can be applied (each needs to be confirmed first):
+
+1. Install RPMFusion repositories. 
+Adds free and nonfree RPMFusion repos and imports their GPG keys.
+
+2. Install additional packages with DNF.
+Installs extra packages listed in dnf-install.cf, with the
+option to skip selected packages interactively.
+
+3. Remove unnecessary packages.
+Removes unwanted packages from dnf-remove.cf and performs autoremove.
+
+4. Install Flatpak applications.
+Adds the Flathub remote and installs Flatpaks from flatpak-install.cf.
+
+5. Ensure groups exist and add user.
+Creates and assigns admin-related groups such as _docker_, _libvirt_, and _vboxusers_.
+
+6. Enable and start Cockpit.
+Enables and starts the systemd service of the Cockpit web-based management interface.
+
 ### Run commands
 
 - App
@@ -12,6 +33,8 @@ It also sets some configuration options useful for development work and system a
   ```
   java src/main/java/cf/maybelambda/fedora/PostInstallUpdater.java
   ```
+
+`--help` can be passed to see available options.
 
 - Tests
 

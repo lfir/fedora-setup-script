@@ -165,4 +165,17 @@ class PostInstallUpdaterTests {
             PostInstallUpdater.setDryRun(false);
         }
     }
+
+    @Test
+    void helpOptionDisplaysHelpTextAndExits() {
+        try (MockedStatic<Files> filesMock = mockStatic(Files.class, CALLS_REAL_METHODS)) {
+            filesMock.when(() -> Files.readAllLines(any(Path.class), eq(StandardCharsets.UTF_8)))
+                .thenReturn(List.of("Usage instructions go here"));
+
+            PostInstallUpdater.main(new String[]{"--help"});
+            PostInstallUpdater.main(new String[]{"-h"});
+
+            filesMock.verify(() -> Files.readAllLines(any(Path.class), eq(StandardCharsets.UTF_8)), Mockito.times(2));
+        }
+    }
 }

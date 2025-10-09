@@ -23,14 +23,19 @@ public class PostInstallUpdater {
         "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm",
         "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm"
     );
+
     private static final String flatpakRemoteName = "flathub";
     private static final String flatpakRemoteUrl = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+
     private static final List<String> groupList = List.of(
         "docker", "libvirt", "vboxsf", "vboxusers"
     );
+
+    private static final String CONFIG_DIR = "src/main/resources";
     private static final String DNF_INSTALL_FILE = "dnf-install.cf";
     private static final String DNF_REMOVE_FILE = "dnf-remove.cf";
     private static final String FLATPAK_INSTALL_FILE = "flatpak-install.cf";
+    private static final String HELP_FILE = "help.txt";
 
     private static final String RESET  = "\u001B[0m";
     private static final String YELLOW = "\u001B[33m";
@@ -38,13 +43,18 @@ public class PostInstallUpdater {
     private static boolean dryRun = false;
 
     public static void main(String[] args) {
-        setDryRun(Arrays.asList(args).contains("--dry-run"));
+        if (Arrays.asList(args).contains("-h") || Arrays.asList(args).contains("--help")) {
+            printHelp();
+            return;
+        }
+
         List<String> dnfInstallPackages = loadPackageNamesFrom(DNF_INSTALL_FILE);
         List<String> dnfRemovePackages = loadPackageNamesFrom(DNF_REMOVE_FILE);
         List<String> flatpakInstallPackages = loadPackageNamesFrom(FLATPAK_INSTALL_FILE);
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Fedora Post Install Actions\n");
+        setDryRun(Arrays.asList(args).contains("--dry-run"));
         if (isDryRun()) {
             System.out.println("---[Dry Run Mode] Shell Commands will not be executed.---\n");
         }
@@ -181,7 +191,7 @@ public class PostInstallUpdater {
     static List<String> loadPackageNamesFrom(String filename) {
         List<String> packages = new ArrayList<>();
         try {
-            List<String> lines = Files.readAllLines(Path.of("src/main/resources", filename), StandardCharsets.UTF_8);
+            List<String> lines = Files.readAllLines(Path.of(CONFIG_DIR, filename), StandardCharsets.UTF_8);
             for (String line : lines) {
                 String trimmed = line.trim();
                 if (!trimmed.isEmpty() && !trimmed.startsWith("#")) {
@@ -221,5 +231,14 @@ public class PostInstallUpdater {
         }
 
         return filtered;
+    }
+
+    static void printHelp() {
+        try {
+            List<String> lines = Files.readAllLines(Path.of(CONFIG_DIR, HELP_FILE), StandardCharsets.UTF_8);
+            System.out.println(String.join(System.lineSeparator(), lines));
+        } catch (IOException e) {
+            System.err.println("Error reading help file: " + e.getMessage());
+        }
     }
 }

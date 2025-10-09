@@ -1,0 +1,13 @@
+Fedora Post Install Actions
+===========================
+
+Usage:
+  java PostInstallUpdater.java [options]
+
+Options:
+  -h, --help       Show this help page and exit.
+  --dry-run        Print all commands without executing them.
+
+Example:
+  java PostInstallUpdater.java --dry-run
+    Goes through all steps without executing system commands.
