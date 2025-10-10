@@ -11,14 +11,14 @@ Current actions that can be applied (each needs to be confirmed first):
 Adds free and nonfree RPMFusion repos and imports their GPG keys.
 
 2. Install additional packages with DNF.
-Installs extra packages listed in dnf-install.cf, with the
+Installs extra packages listed in [dnf-install.cf](https://github.com/lfir/fedora-setup-script/blob/main/src/main/resources/dnf-install.cf), with the
 option to skip selected packages interactively.
 
 3. Remove unnecessary packages.
-Removes unwanted packages from dnf-remove.cf and performs autoremove.
+Removes unwanted packages from [dnf-remove.cf](https://github.com/lfir/fedora-setup-script/blob/main/src/main/resources/dnf-remove.cf) and performs autoremove.
 
 4. Install Flatpak applications.
-Adds the Flathub remote and installs Flatpaks from flatpak-install.cf.
+Adds the Flathub remote and installs Flatpaks from [flatpak-install.cf](https://github.com/lfir/fedora-setup-script/blob/main/src/main/resources/flatpak-install.cf).
 
 5. Ensure groups exist and add user.
 Creates and assigns admin-related groups such as _docker_, _libvirt_, and _vboxusers_.
@@ -34,7 +34,7 @@ Enables and starts the systemd service of the Cockpit web-based management inter
   java src/main/java/cf/maybelambda/fedora/PostInstallUpdater.java
   ```
 
-`--help` can be passed to see available options.
+`--help` can be passed to see available [options](https://github.com/lfir/fedora-setup-script/blob/main/src/main/resources/help.txt).
 
 - Tests
 
