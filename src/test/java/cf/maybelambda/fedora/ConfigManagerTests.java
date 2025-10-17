@@ -54,7 +54,7 @@ public class ConfigManagerTests {
     }
 
     @Test
-    void loadPackageNamesFromValidFileParsesPackageNamesAndOmitsComments() throws IOException {
+    void loadPackageNamesFromValidFileParsesPackageNamesAndOmitsComments() {
         try (MockedStatic<ConfigManager> updaterMock = Mockito.mockStatic(ConfigManager.class, CALLS_REAL_METHODS)) {
             updaterMock.when(() -> ConfigManager.readResourceLines(any(String.class)))
                     .thenReturn(List.of("# Comment", "nano", "vim", "", "htop"));

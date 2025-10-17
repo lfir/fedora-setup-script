@@ -7,23 +7,23 @@ It also sets some configuration options useful for development work and system a
 
 Current actions that can be applied (each needs to be confirmed first):
 
-1. Install RPMFusion repositories. 
+1. **Install RPMFusion repositories.** 
 Adds free and nonfree RPMFusion repos and imports their GPG keys.
 
-2. Install additional packages with DNF.
+2. **Install additional packages with DNF.**
 Installs extra packages listed in [dnf-install.cf](https://github.com/lfir/fedora-setup-script/blob/main/src/main/resources/dnf-install.cf), with the
 option to skip selected packages interactively.
 
-3. Remove unnecessary packages.
+3. **Remove unnecessary packages.**
 Removes unwanted packages from [dnf-remove.cf](https://github.com/lfir/fedora-setup-script/blob/main/src/main/resources/dnf-remove.cf) and performs autoremove.
 
-4. Install Flatpak applications.
+4. **Install Flatpak applications.**
 Adds the Flathub remote and installs Flatpaks from [flatpak-install.cf](https://github.com/lfir/fedora-setup-script/blob/main/src/main/resources/flatpak-install.cf).
 
-5. Ensure groups exist and add user.
+5. **Ensure groups exist and add user.**
 Creates and assigns admin-related groups such as _docker_, _libvirt_, and _vboxusers_.
 
-6. Enable and start Cockpit.
+6. **Enable and start Cockpit.**
 Enables and starts the systemd service of the Cockpit web-based management interface.
 
 ### Run commands

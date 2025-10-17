@@ -5,11 +5,16 @@ import org.mockito.MockedStatic;
 import org.mockito.Mockito;
 
 import java.io.ByteArrayInputStream;
+import java.io.Console;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
 
+import static cf.maybelambda.fedora.PostInstallUpdater.GREEN;
+import static cf.maybelambda.fedora.PostInstallUpdater.RESET;
+import static cf.maybelambda.fedora.PostInstallUpdater.YELLOW;
+import static cf.maybelambda.fedora.PostInstallUpdater.isANSISupported;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -140,5 +145,47 @@ class PostInstallUpdaterTests {
 
             filesMock.verify(() -> ConfigManager.readResourceLines(any(String.class)), Mockito.times(2));
         }
+    }
+
+    @Test
+    void colorAppliesAnsiWhenisANSISupportedTrue() {
+        try (MockedStatic<PostInstallUpdater> mocked = mockStatic(PostInstallUpdater.class, CALLS_REAL_METHODS)) {
+            mocked.when(() -> isANSISupported(any(), any())).thenReturn(true);
+
+            String result = PostInstallUpdater.color("Hello", YELLOW);
+
+            assertEquals(YELLOW + "Hello" + RESET, result);
+        }
+    }
+
+    @Test
+    void colorReturnsPlainTextWhenisANSISupportedFalse() {
+        try (MockedStatic<PostInstallUpdater> mocked = mockStatic(PostInstallUpdater.class, CALLS_REAL_METHODS)) {
+            mocked.when(() -> isANSISupported(any(), any())).thenReturn(false);
+
+            String result = PostInstallUpdater.color("World", GREEN);
+
+            assertEquals("World", result);
+        }
+    }
+
+    @Test
+    void isANSISupportedReturnsTrueWhenConsolePresentAndTermValid() {
+        assertTrue(isANSISupported("xterm-256color", mock(Console.class)));
+    }
+
+    @Test
+    void isANSISupportedReturnsFalseWhenConsoleNull() {
+        assertFalse(isANSISupported("xterm-256color", null));
+    }
+
+    @Test
+    void isANSISupportedReturnsFalseWhenTermNull() {
+        assertFalse(isANSISupported(null, mock(Console.class)));
+    }
+
+    @Test
+    void isANSISupportedReturnsFalseWhenTermIsDumb() {
+        assertFalse(isANSISupported("dumb", mock(Console.class)));
     }
 }

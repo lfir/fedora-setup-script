@@ -1,6 +1,7 @@
 package cf.maybelambda.fedora;
 
 import java.io.BufferedReader;
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -33,8 +34,11 @@ public class PostInstallUpdater {
     private static final String FLATPAK_INSTALL_FILE = "flatpak-install.cf";
     private static final String HELP_FILE = "help.txt";
 
-    private static final String RESET  = "\u001B[0m";
-    private static final String YELLOW = "\u001B[33m";
+    static final String RESET  = "\u001B[0m";
+    static final String YELLOW = "\u001B[33m";
+    static final String GREEN  = "\u001B[32m";
+    private static final String RED    = "\u001B[31m";
+    private static final String BLUE   = "\u001B[34m";
 
     private static boolean dryRun = false;
 
@@ -49,10 +53,10 @@ public class PostInstallUpdater {
         List<String> flatpakInstallPackages = ConfigManager.loadPackageNamesFrom(FLATPAK_INSTALL_FILE);
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println("Fedora Post Install Actions\n");
+        System.out.println(color("Fedora Post Install Actions\n", GREEN));
         setDryRun(Arrays.asList(args).contains("--dry-run"));
         if (isDryRun()) {
-            System.out.println("---[Dry Run Mode] Shell Commands will not be executed.---\n");
+            System.out.println(color("---[Dry Run Mode] Shell Commands will not be executed.---\n", RED));
         }
 
         if (confirm(scanner, "Install RPMFusion repos?")) {
@@ -130,7 +134,7 @@ public class PostInstallUpdater {
             runCommand(new String[]{"sudo", "systemctl", "enable", "--now", "cockpit.socket"});
         }
 
-        System.out.println("\nAll actions completed. Goodbye.");
+        System.out.println(color("\nAll actions completed. Goodbye.", GREEN));
     }
 
     static boolean isDryRun() {
@@ -152,9 +156,9 @@ public class PostInstallUpdater {
     }
 
     static int runCommand(String[] command) {
-        System.out.println("Executing shell command: " + String.join(" ", command));
+        System.out.println("Executing shell command: " + color(String.join(" ", command), BLUE));
         if (isDryRun()) {
-            System.out.println("Dry-run: command not executed.");
+            System.out.println(color("Dry-run: command not executed.", YELLOW));
             return 0;
         }
 
@@ -167,7 +171,7 @@ public class PostInstallUpdater {
             System.out.println("Command output:");
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(YELLOW + line + RESET);
+                System.out.println(color(line, YELLOW));
             }
             exitCode = process.waitFor();
             System.out.println("Command exited with code: " + exitCode);
@@ -213,5 +217,13 @@ public class PostInstallUpdater {
         } catch (IOException e) {
             System.err.println("Error reading help file: " + e.getMessage());
         }
+    }
+
+    static String color(String str, String ansiColorCode) {
+        return isANSISupported(System.getenv("TERM"), System.console()) ? ansiColorCode + str + RESET : str;
+    }
+
+    static boolean isANSISupported(String term, Console console) {
+        return console != null && term != null && !"dumb".equals(term);
     }
 }
