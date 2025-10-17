@@ -6,7 +6,7 @@
 
     <groupId>cf.maybelambda</groupId>
     <artifactId>fedora-setup-script</artifactId>
-    <version>3.0.1</version>
+    <version>3.0.2</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -19,15 +19,14 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
-            <version>5.14.0</version>
+            <version>6.0.0</version>
             <scope>test</scope>
         </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.mockito/mockito-core -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.18.0</version>
+            <version>5.20.0</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -41,6 +40,20 @@
                 <version>3.5.4</version>
                 <configuration>
                     <useModulePath>false</useModulePath>
+                </configuration>
+            </plugin>
+            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-jar-plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>cf.maybelambda.fedora.PostInstallUpdater</mainClass>
+                        </manifest>
+                    </archive>
                 </configuration>
             </plugin>
         </plugins>

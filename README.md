@@ -30,8 +30,10 @@ Enables and starts the systemd service of the Cockpit web-based management inter
 
 - App
 
+Download latest version from the [Releases](https://github.com/lfir/fedora-setup-script/releases) page and execute in the terminal
+
   ```
-  java src/main/java/cf/maybelambda/fedora/PostInstallUpdater.java
+  java -jar fedora-setup-script-X.Y.Z.jar
   ```
 
 `--help` can be passed to see available [options](https://github.com/lfir/fedora-setup-script/blob/main/src/main/resources/help.txt).

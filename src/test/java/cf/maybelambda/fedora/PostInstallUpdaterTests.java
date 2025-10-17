@@ -7,8 +7,6 @@ import org.mockito.Mockito;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.Scanner;
 
@@ -17,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
@@ -83,40 +80,6 @@ class PostInstallUpdaterTests {
     }
 
     @Test
-    void loadPackageNamesFromValidFileParsesPackageNamesAndOmitsComments() throws IOException {
-        Path tempFile = Files.createTempFile("test-packages", ".cf");
-        Files.writeString(tempFile, """
-            # Comment
-            nano
-            vim
-
-            # Another comment
-            htop
-        """, StandardCharsets.UTF_8);
-
-        try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
-            filesMock.when(() -> Files.readAllLines(any(Path.class), eq(StandardCharsets.UTF_8)))
-                    .thenReturn(List.of("# Comment", "nano", "vim", "", "htop"));
-
-            List<String> result = PostInstallUpdater.loadPackageNamesFrom("dummy.cf");
-
-            assertEquals(List.of("nano", "vim", "htop"), result);
-        }
-    }
-
-    @Test
-    void loadPackageNamesFromReturnsEmptyListOnIOException() {
-        try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
-            filesMock.when(() -> Files.readAllLines(any(Path.class), eq(StandardCharsets.UTF_8)))
-                    .thenThrow(new IOException("Simulated failure"));
-
-            List<String> result = PostInstallUpdater.loadPackageNamesFrom("missing.cf");
-
-            assertTrue(result.isEmpty());
-        }
-    }
-
-    @Test
     void runCommandReturnsStatusCodeOfCommandExecuted() throws Exception {
         Process mockProcess = mock(Process.class);
         when(mockProcess.getInputStream()).thenReturn(new ByteArrayInputStream("ok".getBytes(StandardCharsets.UTF_8)));
@@ -168,14 +131,14 @@ class PostInstallUpdaterTests {
 
     @Test
     void helpOptionDisplaysHelpTextAndExits() {
-        try (MockedStatic<Files> filesMock = mockStatic(Files.class, CALLS_REAL_METHODS)) {
-            filesMock.when(() -> Files.readAllLines(any(Path.class), eq(StandardCharsets.UTF_8)))
+        try (MockedStatic<ConfigManager> filesMock = mockStatic(ConfigManager.class)) {
+            filesMock.when(() -> ConfigManager.readResourceLines(any(String.class)))
                 .thenReturn(List.of("Usage instructions go here"));
 
             PostInstallUpdater.main(new String[]{"--help"});
             PostInstallUpdater.main(new String[]{"-h"});
 
-            filesMock.verify(() -> Files.readAllLines(any(Path.class), eq(StandardCharsets.UTF_8)), Mockito.times(2));
+            filesMock.verify(() -> ConfigManager.readResourceLines(any(String.class)), Mockito.times(2));
         }
     }
 }

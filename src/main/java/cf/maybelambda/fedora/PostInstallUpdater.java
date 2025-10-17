@@ -3,9 +3,6 @@ package cf.maybelambda.fedora;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -16,22 +13,21 @@ import java.util.Set;
 
 public class PostInstallUpdater {
     private static final List<String> gpgKeys = List.of(
-        "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-free-fedora-2020",
-        "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-2020"
+            "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-free-fedora-2020",
+            "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-2020"
     );
     private static final List<String> rpmfusionRepos = List.of(
-        "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm",
-        "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm"
+            "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm",
+            "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm"
     );
 
     private static final String flatpakRemoteName = "flathub";
     private static final String flatpakRemoteUrl = "https://dl.flathub.org/repo/flathub.flatpakrepo";
 
     private static final List<String> groupList = List.of(
-        "docker", "libvirt", "vboxsf", "vboxusers"
+            "docker", "libvirt", "vboxsf", "vboxusers"
     );
 
-    private static final String CONFIG_DIR = "src/main/resources";
     private static final String DNF_INSTALL_FILE = "dnf-install.cf";
     private static final String DNF_REMOVE_FILE = "dnf-remove.cf";
     private static final String FLATPAK_INSTALL_FILE = "flatpak-install.cf";
@@ -48,9 +44,9 @@ public class PostInstallUpdater {
             return;
         }
 
-        List<String> dnfInstallPackages = loadPackageNamesFrom(DNF_INSTALL_FILE);
-        List<String> dnfRemovePackages = loadPackageNamesFrom(DNF_REMOVE_FILE);
-        List<String> flatpakInstallPackages = loadPackageNamesFrom(FLATPAK_INSTALL_FILE);
+        List<String> dnfInstallPackages = ConfigManager.loadPackageNamesFrom(DNF_INSTALL_FILE);
+        List<String> dnfRemovePackages = ConfigManager.loadPackageNamesFrom(DNF_REMOVE_FILE);
+        List<String> flatpakInstallPackages = ConfigManager.loadPackageNamesFrom(FLATPAK_INSTALL_FILE);
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Fedora Post Install Actions\n");
@@ -59,7 +55,6 @@ public class PostInstallUpdater {
             System.out.println("---[Dry Run Mode] Shell Commands will not be executed.---\n");
         }
 
-        // 1. Install RPMFusion repos
         if (confirm(scanner, "Install RPMFusion repos?")) {
             for (String key : gpgKeys) {
                 runCommand(new String[]{"sudo", "rpm", "--import", key});
@@ -76,7 +71,6 @@ public class PostInstallUpdater {
             runCommand(cmd);
         }
 
-        // 2. DNF install packages
         if (confirm(scanner, "Install additional packages with DNF?")) {
             List<String> filtered = promptForExclusions(dnfInstallPackages, scanner);
             String[] cmd = new String[filtered.size() + 5];
@@ -91,7 +85,6 @@ public class PostInstallUpdater {
             runCommand(cmd);
         }
 
-        // 3. DNF remove packages
         if (confirm(scanner, "Remove all DNF packages marked for removal?")) {
             List<String> filtered = promptForExclusions(dnfRemovePackages, scanner);
             String[] cmd = new String[filtered.size() + 4];
@@ -106,7 +99,6 @@ public class PostInstallUpdater {
             runCommand(new String[]{"sudo", "dnf", "autoremove", "-y"});
         }
 
-        // 4. Flatpak install apps
         if (confirm(scanner, "Install Flatpak apps?")) {
             runCommand(new String[]{"flatpak", "remote-add", "--if-not-exists", flatpakRemoteName, flatpakRemoteUrl});
             List<String> filtered = promptForExclusions(flatpakInstallPackages, scanner);
@@ -121,7 +113,6 @@ public class PostInstallUpdater {
             runCommand(cmd);
         }
 
-        // 5. Ensure groups exist and add user to them
         if (confirm(scanner, "Ensure admin groups exist and add current user to them?")) {
             String user = System.getProperty("user.name");
             for (String group : groupList) {
@@ -135,7 +126,6 @@ public class PostInstallUpdater {
             }
         }
 
-        // 6. Enable and start Cockpit service
         if (confirm(scanner, "Enable and start cockpit.socket service?")) {
             runCommand(new String[]{"sudo", "systemctl", "enable", "--now", "cockpit.socket"});
         }
@@ -188,23 +178,6 @@ public class PostInstallUpdater {
         return exitCode;
     }
 
-    static List<String> loadPackageNamesFrom(String filename) {
-        List<String> packages = new ArrayList<>();
-        try {
-            List<String> lines = Files.readAllLines(Path.of(CONFIG_DIR, filename), StandardCharsets.UTF_8);
-            for (String line : lines) {
-                String trimmed = line.trim();
-                if (!trimmed.isEmpty() && !trimmed.startsWith("#")) {
-                    packages.add(trimmed);
-                }
-            }
-        } catch (IOException e) {
-            System.err.println("Failed to read package list from " + filename + ": " + e.getMessage());
-        }
-
-        return packages;
-    }
-
     static List<String> promptForExclusions(List<String> packages, Scanner scanner) {
         for (int i = 0; i < packages.size(); i++) {
             System.out.printf("%2d. %s\n", i + 1, packages.get(i));
@@ -235,7 +208,7 @@ public class PostInstallUpdater {
 
     static void printHelp() {
         try {
-            List<String> lines = Files.readAllLines(Path.of(CONFIG_DIR, HELP_FILE), StandardCharsets.UTF_8);
+            List<String> lines = ConfigManager.readResourceLines(HELP_FILE);
             System.out.println(String.join(System.lineSeparator(), lines));
         } catch (IOException e) {
             System.err.println("Error reading help file: " + e.getMessage());
