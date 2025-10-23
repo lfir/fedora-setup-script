@@ -11,6 +11,24 @@ import java.util.List;
 
 public class ConfigManager {
     private static final String CONFIG_DIR = "src/main/resources";
+    private static final String DNF_INSTALL_FILE = "dnf-install.cf";
+    private static final String DNF_REMOVE_FILE = "dnf-remove.cf";
+    private static final String FLATPAK_INSTALL_FILE = "flatpak-install.cf";
+    private static final String HELP_FILE = "help.txt";
+
+    private static final List<String> gpgKeys = List.of(
+        "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-free-fedora-2020",
+        "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-2020"
+    );
+    private static final List<String> rpmFusionRepos = List.of(
+        "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm",
+        "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm"
+    );
+
+    private static final String flatpakRemoteName = "flathub";
+    private static final String flatpakRemoteUrl = "https://dl.flathub.org/repo/flathub.flatpakrepo";
+
+    private static final List<String> adminGroups = List.of("docker", "libvirt", "vboxsf", "vboxusers");
 
     static List<String> readResourceLines(String filename) throws IOException {
         Path path = Path.of(CONFIG_DIR, filename);
@@ -38,5 +56,41 @@ public class ConfigManager {
         }
 
         return packages;
+    }
+
+    static List<String> getRPMFusionGpgKeys() {
+        return gpgKeys;
+    }
+
+    static List<String> getRPMFusionRepos() {
+        return rpmFusionRepos;
+    }
+
+    static String getFlatpakRemoteName() {
+        return flatpakRemoteName;
+    }
+
+    static String getFlatpakRemoteUrl() {
+        return flatpakRemoteUrl;
+    }
+
+    static List<String> getAdminGroups() {
+        return adminGroups;
+    }
+
+    static List<String> getDnfInstallPackages() {
+        return loadPackageNamesFrom(DNF_INSTALL_FILE);
+    }
+
+    static List<String> getDnfRemovePackages() {
+        return loadPackageNamesFrom(DNF_REMOVE_FILE);
+    }
+
+    static List<String> getFlatpakInstallPackages() {
+        return loadPackageNamesFrom(FLATPAK_INSTALL_FILE);
+    }
+
+    static List<String> getHelpText() throws IOException {
+        return readResourceLines(HELP_FILE);
     }
 }

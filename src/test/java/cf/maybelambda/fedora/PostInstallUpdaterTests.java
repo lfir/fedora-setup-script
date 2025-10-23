@@ -143,7 +143,7 @@ class PostInstallUpdaterTests {
             PostInstallUpdater.main(new String[]{"--help"});
             PostInstallUpdater.main(new String[]{"-h"});
 
-            filesMock.verify(() -> ConfigManager.readResourceLines(any(String.class)), Mockito.times(2));
+            filesMock.verify(() -> ConfigManager.getHelpText(), Mockito.times(2));
         }
     }
 

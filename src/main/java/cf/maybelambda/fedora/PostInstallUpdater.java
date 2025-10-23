@@ -13,27 +13,6 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class PostInstallUpdater {
-    private static final List<String> gpgKeys = List.of(
-            "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-free-fedora-2020",
-            "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-2020"
-    );
-    private static final List<String> rpmfusionRepos = List.of(
-            "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm",
-            "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm"
-    );
-
-    private static final String flatpakRemoteName = "flathub";
-    private static final String flatpakRemoteUrl = "https://dl.flathub.org/repo/flathub.flatpakrepo";
-
-    private static final List<String> groupList = List.of(
-            "docker", "libvirt", "vboxsf", "vboxusers"
-    );
-
-    private static final String DNF_INSTALL_FILE = "dnf-install.cf";
-    private static final String DNF_REMOVE_FILE = "dnf-remove.cf";
-    private static final String FLATPAK_INSTALL_FILE = "flatpak-install.cf";
-    private static final String HELP_FILE = "help.txt";
-
     static final String RESET  = "\u001B[0m";
     static final String YELLOW = "\u001B[33m";
     static final String GREEN  = "\u001B[32m";
@@ -48,9 +27,9 @@ public class PostInstallUpdater {
             return;
         }
 
-        List<String> dnfInstallPackages = ConfigManager.loadPackageNamesFrom(DNF_INSTALL_FILE);
-        List<String> dnfRemovePackages = ConfigManager.loadPackageNamesFrom(DNF_REMOVE_FILE);
-        List<String> flatpakInstallPackages = ConfigManager.loadPackageNamesFrom(FLATPAK_INSTALL_FILE);
+        List<String> dnfInstallPackages = ConfigManager.getDnfInstallPackages();
+        List<String> dnfRemovePackages = ConfigManager.getDnfRemovePackages();
+        List<String> flatpakInstallPackages = ConfigManager.getFlatpakInstallPackages();
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(color("Fedora Post Install Actions\n", GREEN));
@@ -60,17 +39,18 @@ public class PostInstallUpdater {
         }
 
         if (confirm(scanner, "Install RPMFusion repos?")) {
-            for (String key : gpgKeys) {
+            for (String key : ConfigManager.getRPMFusionGpgKeys()) {
                 runCommand(new String[]{"sudo", "rpm", "--import", key});
             }
 
-            String[] cmd = new String[rpmfusionRepos.size() + 4];
+            List<String> repos = ConfigManager.getRPMFusionRepos();
+            String[] cmd = new String[repos.size() + 4];
             cmd[0] = "sudo";
             cmd[1] = "dnf";
             cmd[2] = "install";
             cmd[3] = "-y";
-            for (int i = 0; i < rpmfusionRepos.size(); i++) {
-                cmd[4 + i] = rpmfusionRepos.get(i);
+            for (int i = 0; i < repos.size(); i++) {
+                cmd[4 + i] = repos.get(i);
             }
             runCommand(cmd);
         }
@@ -104,13 +84,15 @@ public class PostInstallUpdater {
         }
 
         if (confirm(scanner, "Install Flatpak apps?")) {
-            runCommand(new String[]{"flatpak", "remote-add", "--if-not-exists", flatpakRemoteName, flatpakRemoteUrl});
+            String name = ConfigManager.getFlatpakRemoteName();
+            String url = ConfigManager.getFlatpakRemoteUrl();
+            runCommand(new String[]{"flatpak", "remote-add", "--if-not-exists", name, url});
             List<String> filtered = promptForExclusions(flatpakInstallPackages, scanner);
             String[] cmd = new String[filtered.size() + 4];
             cmd[0] = "flatpak";
             cmd[1] = "install";
             cmd[2] = "-y";
-            cmd[3] = flatpakRemoteName;
+            cmd[3] = name;
             for (int i = 0; i < filtered.size(); i++) {
                 cmd[4 + i] = filtered.get(i);
             }
@@ -119,7 +101,7 @@ public class PostInstallUpdater {
 
         if (confirm(scanner, "Ensure admin groups exist and add current user to them?")) {
             String user = System.getProperty("user.name");
-            for (String group : groupList) {
+            for (String group : ConfigManager.getAdminGroups()) {
                 int exit = runCommand(new String[]{"getent", "group", group});
                 boolean groupExists = (exit == 0);
                 if (!groupExists) {
@@ -212,7 +194,7 @@ public class PostInstallUpdater {
 
     static void printHelp() {
         try {
-            List<String> lines = ConfigManager.readResourceLines(HELP_FILE);
+            List<String> lines = ConfigManager.getHelpText();
             System.out.println(String.join(System.lineSeparator(), lines));
         } catch (IOException e) {
             System.err.println("Error reading help file: " + e.getMessage());
