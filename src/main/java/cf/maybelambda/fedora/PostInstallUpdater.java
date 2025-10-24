@@ -1,29 +1,27 @@
 package cf.maybelambda.fedora;
 
 import java.io.BufferedReader;
-import java.io.Console;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.Set;
+
+import static cf.maybelambda.fedora.ConsoleIOHelper.BLUE;
+import static cf.maybelambda.fedora.ConsoleIOHelper.GREEN;
+import static cf.maybelambda.fedora.ConsoleIOHelper.RED;
+import static cf.maybelambda.fedora.ConsoleIOHelper.YELLOW;
+import static cf.maybelambda.fedora.ConsoleIOHelper.color;
+import static cf.maybelambda.fedora.ConsoleIOHelper.confirm;
+import static cf.maybelambda.fedora.ConsoleIOHelper.promptForExclusions;
 
 public class PostInstallUpdater {
-    static final String RESET  = "\u001B[0m";
-    static final String YELLOW = "\u001B[33m";
-    static final String GREEN  = "\u001B[32m";
-    private static final String RED    = "\u001B[31m";
-    private static final String BLUE   = "\u001B[34m";
-
-    private static boolean dryRun = false;
+    private static boolean dryRun;
 
     public static void main(String[] args) {
         if (Arrays.asList(args).contains("-h") || Arrays.asList(args).contains("--help")) {
-            printHelp();
+            ConsoleIOHelper.printHelp();
             return;
         }
 
@@ -32,7 +30,7 @@ public class PostInstallUpdater {
         List<String> flatpakInstallPackages = ConfigManager.getFlatpakInstallPackages();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println(color("Fedora Post Install Actions\n", GREEN));
+        System.out.println(color("]|I{•------» Fedora Post-Install Actions «------•}I|[\n", GREEN));
         setDryRun(Arrays.asList(args).contains("--dry-run"));
         if (isDryRun()) {
             System.out.println(color("---[Dry Run Mode] Shell Commands will not be executed.---\n", RED));
@@ -116,7 +114,7 @@ public class PostInstallUpdater {
             runCommand(new String[]{"sudo", "systemctl", "enable", "--now", "cockpit.socket"});
         }
 
-        System.out.println(color("\nAll actions completed. Goodbye.", GREEN));
+        System.out.println(color("\n.o0×X×0o. All actions completed. Goodbye. .o0×X×0o.", GREEN));
     }
 
     static boolean isDryRun() {
@@ -125,12 +123,6 @@ public class PostInstallUpdater {
 
     static void setDryRun(boolean dryRun) {
         PostInstallUpdater.dryRun = dryRun;
-    }
-
-    static boolean confirm(Scanner scanner, String prompt) {
-        System.out.print(prompt + " [y/N]: ");
-        String input = scanner.nextLine().trim().toLowerCase();
-        return input.equals("y") || input.equals("yes");
     }
 
     static ProcessBuilder createProcessBuilder(String[] cmd) {
@@ -162,50 +154,5 @@ public class PostInstallUpdater {
         }
 
         return exitCode;
-    }
-
-    static List<String> promptForExclusions(List<String> packages, Scanner scanner) {
-        for (int i = 0; i < packages.size(); i++) {
-            System.out.printf("%2d. %s\n", i + 1, packages.get(i));
-        }
-        System.out.print("Enter the numbers of any packages to exclude (comma-separated), or press Enter to keep all: ");
-
-        String excludeInput = scanner.nextLine().trim();
-        Set<Integer> excludeIndexes = new HashSet<>();
-        if (excludeInput.matches("^\\d+$|^(\\d+,)+\\d$")) {
-            for (String part : excludeInput.split(",")) {
-                try {
-                    int idx = Integer.parseInt(part.trim());
-                    if (idx >= 1 && idx <= packages.size()) {
-                        excludeIndexes.add(idx - 1);
-                    }
-                } catch (NumberFormatException ignored) {}
-            }
-        }
-        List<String> filtered = new ArrayList<>();
-        for (int i = 0; i < packages.size(); i++) {
-            if (!excludeIndexes.contains(i)) {
-                filtered.add(packages.get(i));
-            }
-        }
-
-        return filtered;
-    }
-
-    static void printHelp() {
-        try {
-            List<String> lines = ConfigManager.getHelpText();
-            System.out.println(String.join(System.lineSeparator(), lines));
-        } catch (IOException e) {
-            System.err.println("Error reading help file: " + e.getMessage());
-        }
-    }
-
-    static String color(String str, String ansiColorCode) {
-        return isANSISupported(System.getenv("TERM"), System.console()) ? ansiColorCode + str + RESET : str;
-    }
-
-    static boolean isANSISupported(String term, Console console) {
-        return console != null && term != null && !"dumb".equals(term);
     }
 }
