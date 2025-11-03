@@ -11,10 +11,10 @@ import java.util.List;
 
 public class ConfigManager {
     private static final String CONFIG_DIR = "src/main/resources";
-    private static final String DNF_INSTALL_FILE = "dnf-install.cf";
-    private static final String DNF_REMOVE_FILE = "dnf-remove.cf";
-    private static final String FLATPAK_INSTALL_FILE = "flatpak-install.cf";
-    private static final String HELP_FILE = "help.txt";
+    static final String DNF_INSTALL_FILE = "dnf-install.cf";
+    static final String DNF_REMOVE_FILE = "dnf-remove.cf";
+    static final String FLATPAK_INSTALL_FILE = "flatpak-install.cf";
+    static final String HELP_FILE = "help.txt";
 
     private static final List<String> gpgKeys = List.of(
         "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-free-fedora-2020",

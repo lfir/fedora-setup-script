@@ -1,5 +1,5 @@
-Fedora Post Install Actions
-===========================
+Fedora Setup Script
+===================
 
 Usage:
   java -jar fedora-setup-script-X.Y.Z.jar [options]

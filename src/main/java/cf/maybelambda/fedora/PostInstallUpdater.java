@@ -30,7 +30,7 @@ public class PostInstallUpdater {
         List<String> flatpakInstallPackages = ConfigManager.getFlatpakInstallPackages();
         Scanner scanner = new Scanner(System.in);
 
-        System.out.println(color("]|I{•------» Fedora Post-Install Actions «------•}I|[\n", GREEN));
+        System.out.println(color("]|I{•------» Fedora Setup Script «------•}I|[\n", GREEN));
         setDryRun(Arrays.asList(args).contains("--dry-run"));
         if (isDryRun()) {
             System.out.println(color("---[Dry Run Mode] Shell Commands will not be executed.---\n", RED));

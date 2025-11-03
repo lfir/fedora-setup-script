@@ -11,6 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import static cf.maybelambda.fedora.ConfigManager.DNF_INSTALL_FILE;
+import static cf.maybelambda.fedora.ConfigManager.DNF_REMOVE_FILE;
+import static cf.maybelambda.fedora.ConfigManager.FLATPAK_INSTALL_FILE;
+import static cf.maybelambda.fedora.ConfigManager.HELP_FILE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -57,7 +61,7 @@ public class ConfigManagerTests {
     void loadPackageNamesFromValidFileParsesPackageNamesAndOmitsComments() {
         try (MockedStatic<ConfigManager> updaterMock = Mockito.mockStatic(ConfigManager.class, CALLS_REAL_METHODS)) {
             updaterMock.when(() -> ConfigManager.readResourceLines(any(String.class)))
-                    .thenReturn(List.of("# Comment", "nano", "vim", "", "htop"));
+                .thenReturn(List.of("# Comment", "nano", "vim", "", "htop"));
 
             List<String> result = ConfigManager.loadPackageNamesFrom("test-packages.cf");
 
@@ -69,11 +73,82 @@ public class ConfigManagerTests {
     void loadPackageNamesFromReturnsEmptyListOnIOException() {
         try (MockedStatic<Files> filesMock = mockStatic(Files.class)) {
             filesMock.when(() -> Files.readAllLines(any(Path.class), eq(StandardCharsets.UTF_8)))
-                    .thenThrow(new IOException("Simulated failure"));
+                .thenThrow(new IOException("Simulated failure"));
 
             List<String> result = ConfigManager.loadPackageNamesFrom("missing.cf");
 
             assertTrue(result.isEmpty());
+        }
+    }
+
+    @Test
+    void loadPackageNamesFromHandlesEmptyFile() {
+        try (MockedStatic<ConfigManager> updaterMock = Mockito.mockStatic(ConfigManager.class, CALLS_REAL_METHODS)) {
+            updaterMock.when(() -> ConfigManager.readResourceLines(any(String.class))).thenReturn(List.of());
+
+            List<String> result = ConfigManager.loadPackageNamesFrom("empty.cf");
+
+            assertTrue(result.isEmpty());
+        }
+    }
+
+    @Test
+    void loadPackageNamesFromHandlesOnlyCommentsAndWhitespace() {
+        try (MockedStatic<ConfigManager> updaterMock = Mockito.mockStatic(ConfigManager.class, CALLS_REAL_METHODS)) {
+            updaterMock.when(() -> ConfigManager.readResourceLines(any(String.class)))
+                    .thenReturn(List.of("# Comment", "   ", "# Another comment", ""));
+
+            List<String> result = ConfigManager.loadPackageNamesFrom("comments-only.cf");
+
+            assertTrue(result.isEmpty());
+        }
+    }
+
+    @Test
+    void getHelpTextReturnsTextFromHelpFile() throws IOException {
+        try (MockedStatic<ConfigManager> configManagerMock = mockStatic(ConfigManager.class, CALLS_REAL_METHODS)) {
+            List<String> helpText = List.of("Help line 1", "Help line 2", "Help line 3");
+            configManagerMock.when(() -> ConfigManager.readResourceLines(eq(HELP_FILE))).thenReturn(helpText);
+
+            List<String> result = ConfigManager.getHelpText();
+
+            assertEquals(helpText, result);
+        }
+    }
+
+    @Test
+    void getDnfInstallPackagesReturnsCorrectPackageNames() {
+        try (MockedStatic<ConfigManager> updaterMock = Mockito.mockStatic(ConfigManager.class, CALLS_REAL_METHODS)) {
+            List<String> pkgs = List.of("package1", "package2", "package3");
+            updaterMock.when(() -> ConfigManager.loadPackageNamesFrom(eq(DNF_INSTALL_FILE))).thenReturn(pkgs);
+
+            List<String> result = ConfigManager.getDnfInstallPackages();
+
+            assertEquals(pkgs, result);
+        }
+    }
+
+    @Test
+    void getDnfRemovePackagesReturnsCorrectPackageNames() {
+        try (MockedStatic<ConfigManager> updaterMock = Mockito.mockStatic(ConfigManager.class, CALLS_REAL_METHODS)) {
+            List<String> pkgs = List.of("package1", "package2", "package3");
+            updaterMock.when(() -> ConfigManager.loadPackageNamesFrom(eq(DNF_REMOVE_FILE))).thenReturn(pkgs);
+
+            List<String> result = ConfigManager.getDnfRemovePackages();
+
+            assertEquals(pkgs, result);
+        }
+    }
+
+    @Test
+    void getFlatpakInstallPackagesReturnsCorrectPackageNames() {
+        try (MockedStatic<ConfigManager> updaterMock = Mockito.mockStatic(ConfigManager.class, CALLS_REAL_METHODS)) {
+            List<String> pkgs = List.of("package1", "package2", "package3");
+            updaterMock.when(() -> ConfigManager.loadPackageNamesFrom(eq(FLATPAK_INSTALL_FILE))).thenReturn(pkgs);
+
+            List<String> result = ConfigManager.getFlatpakInstallPackages();
+
+            assertEquals(pkgs, result);
         }
     }
 }
