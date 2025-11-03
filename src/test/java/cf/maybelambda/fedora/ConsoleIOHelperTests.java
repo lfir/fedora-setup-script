@@ -1,10 +1,15 @@
 package cf.maybelambda.fedora;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.MockedStatic;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.Console;
+import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Scanner;
@@ -15,6 +20,7 @@ import static cf.maybelambda.fedora.ConsoleIOHelper.YELLOW;
 import static cf.maybelambda.fedora.ConsoleIOHelper.color;
 import static cf.maybelambda.fedora.ConsoleIOHelper.confirm;
 import static cf.maybelambda.fedora.ConsoleIOHelper.isANSISupported;
+import static cf.maybelambda.fedora.ConsoleIOHelper.printHelp;
 import static cf.maybelambda.fedora.ConsoleIOHelper.promptForExclusions;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -85,11 +91,20 @@ public class ConsoleIOHelperTests {
         assertEquals(List.of("pkg1", "pkg3"), result);
     }
 
-    @Test
-    void promptForExclusionsThrowsRuntimeExceptionWhenInvalidInputRead() {
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "1,,3",          // multiple consecutive commas
+        "1,3,",          // trailing comma
+        ",1,3",          // leading comma
+        "1a,2",          // invalid characters mixed with valid numbers
+        "1,abc,2",       // non-numeric characters
+        "qwerty",        // completely non-numeric input
+        "!@#, $%^, &*()" // special characters
+    })
+    void promptForExclusionsThrowsRuntimeExceptionWhenInvalidInputRead(String input) {
         List<String> pkgs = List.of("pkg");
         Scanner scanner = mock(Scanner.class);
-        when(scanner.nextLine()).thenReturn("qwerty");
+        when(scanner.nextLine()).thenReturn(input);
 
         assertThrows(RuntimeException.class, () -> promptForExclusions(pkgs, scanner));
     }
@@ -134,5 +149,45 @@ public class ConsoleIOHelperTests {
     @Test
     void isANSISupportedReturnsFalseWhenTermIsDumb() {
         assertFalse(isANSISupported("dumb", mock(Console.class)));
+    }
+
+    @Test
+    void printHelpDisplaysHelpTextSuccessfully() {
+        try (MockedStatic<ConfigManager> mockedConfig = mockStatic(ConfigManager.class)) {
+            List<String> helpLines = List.of("Help line 1", "Help line 2", "Help line 3");
+            mockedConfig.when(ConfigManager::getHelpText).thenReturn(helpLines);
+            // Capture System.out output
+            ByteArrayOutputStream capture = new ByteArrayOutputStream();
+            System.setOut(new PrintStream(capture));
+
+            printHelp();
+
+            // Reset System.out
+            System.setOut(System.out);
+            String output = capture.toString();
+
+            assertTrue(output.contains(helpLines.get(0)));
+            assertTrue(output.contains(helpLines.get(1)));
+            assertTrue(output.contains(helpLines.get(2)));
+        }
+    }
+
+    @Test
+    void printHelpPrintsErrorMessageOnIOException() {
+        try (MockedStatic<ConfigManager> mockedConfig = mockStatic(ConfigManager.class)) {
+            mockedConfig.when(ConfigManager::getHelpText).thenThrow(new IOException("File not found"));
+            // Capture System.err output
+            ByteArrayOutputStream capture = new ByteArrayOutputStream();
+            System.setErr(new PrintStream(capture));
+
+            printHelp();
+
+            // Reset System.err
+            System.setErr(System.err);
+            String errorOutput = capture.toString();
+
+            assertTrue(errorOutput.contains("Error reading help file"));
+            assertTrue(errorOutput.contains("File not found"));
+        }
     }
 }
