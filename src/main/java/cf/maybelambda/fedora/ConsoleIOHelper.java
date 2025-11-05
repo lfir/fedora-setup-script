@@ -68,6 +68,6 @@ public class ConsoleIOHelper {
     }
 
     static boolean isANSISupported(String term, Console console) {
-        return console != null && term != null && !"dumb".equals(term);
+        return console != null && term != null && !term.isEmpty() && !"dumb".equals(term);
     }
 }

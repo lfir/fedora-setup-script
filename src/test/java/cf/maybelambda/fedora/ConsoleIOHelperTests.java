@@ -131,24 +131,23 @@ public class ConsoleIOHelperTests {
         }
     }
 
-    @Test
-    void isANSISupportedReturnsTrueWhenConsolePresentAndTermValid() {
-        assertTrue(isANSISupported("xterm-256color", mock(Console.class)));
+    @ParameterizedTest
+    @ValueSource(strings = {
+        "xterm-256color",
+        "xterm",
+        "screen",
+    })
+    void isANSISupportedReturnsTrueWhenConsolePresentAndTermValid(String term) {
+        assertTrue(isANSISupported(term, mock(Console.class)));
     }
 
     @Test
-    void isANSISupportedReturnsFalseWhenConsoleIsNull() {
-        assertFalse(isANSISupported("xterm-256color", null));
-    }
-
-    @Test
-    void isANSISupportedReturnsFalseWhenTermIsNull() {
-        assertFalse(isANSISupported(null, mock(Console.class)));
-    }
-
-    @Test
-    void isANSISupportedReturnsFalseWhenTermIsDumb() {
+    void isANSISupportedReturnsFalseWhenTermOrConsoleInvalid() {
+        assertFalse(isANSISupported("", mock(Console.class)));
         assertFalse(isANSISupported("dumb", mock(Console.class)));
+        assertFalse(isANSISupported("xterm", null));
+        assertFalse(isANSISupported(null, mock(Console.class)));
+        assertFalse(isANSISupported(null, null));
     }
 
     @Test
