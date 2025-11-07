@@ -50,7 +50,7 @@ public class ConsoleIOHelper {
                     }
                 }
             } else {
-                int idx = Integer.parseInt(part.trim());
+                int idx = Integer.parseInt(part);
                 if (idx >= 1 && idx <= packages.size()) {
                     excludeIndexes.add(idx - 1);
                 }
