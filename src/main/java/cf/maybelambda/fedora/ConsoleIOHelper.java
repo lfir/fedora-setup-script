@@ -14,6 +14,8 @@ public class ConsoleIOHelper {
     static final String GREEN  = "\u001B[32m";
     static final String RED    = "\u001B[31m";
     static final String BLUE   = "\u001B[34m";
+    private static final String EXCLUDE_PROMPT = "Type in the number and/or range of numbers of packages to exclude "
+        + "(comma-separated, i.e. 2,3,5..9)\nor press Enter to keep all: ";
 
     static boolean confirm(Scanner scanner, String prompt) {
         System.out.print(prompt + " [y/N]: ");
@@ -25,32 +27,42 @@ public class ConsoleIOHelper {
         for (int i = 0; i < packages.size(); i++) {
             System.out.printf("%2d. %s\n", i + 1, packages.get(i));
         }
-        System.out.print("Enter the numbers of any packages to exclude (comma-separated), or press Enter to keep all: ");
+        System.out.print(EXCLUDE_PROMPT);
 
         String excludeInput = scanner.nextLine().trim();
-        String validInputRE = "^$|^\\d+$|^(\\d+,)+\\d$";
+        String validInputRE = "^$|^(\\d+|\\d+\\.\\.\\d+)(,(\\d+|\\d+\\.\\.\\d+))*$";
         if (!excludeInput.matches(validInputRE)) {
             throw new RuntimeException("Invalid selection");
         }
 
         Set<Integer> excludeIndexes = new HashSet<>();
-        if (!excludeInput.isEmpty()) {
-            for (String part : excludeInput.split(",")) {
-                try {
-                    int idx = Integer.parseInt(part.trim());
-                    if (idx >= 1 && idx <= packages.size()) {
-                        excludeIndexes.add(idx - 1);
+        for (String part : excludeInput.split(",")) {
+            if (excludeInput.isEmpty()) {
+                break;
+            }
+            if (part.contains("..")) {
+                String[] limits = part.split("\\.\\.");
+                int s = Integer.parseInt(limits[0]);
+                int e = Integer.parseInt(limits[1]);
+                if (s >= 1 && e <= packages.size()) {
+                    for (int i = s; i <= e; i++) {
+                        excludeIndexes.add(i - 1);
                     }
-                } catch (NumberFormatException ignored) {}
+                }
+            } else {
+                int idx = Integer.parseInt(part.trim());
+                if (idx >= 1 && idx <= packages.size()) {
+                    excludeIndexes.add(idx - 1);
+                }
             }
         }
+
         List<String> filtered = new ArrayList<>();
         for (int i = 0; i < packages.size(); i++) {
             if (!excludeIndexes.contains(i)) {
                 filtered.add(packages.get(i));
             }
         }
-
         return filtered;
     }
 

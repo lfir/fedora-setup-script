@@ -74,32 +74,59 @@ public class ConsoleIOHelperTests {
     @Test
     void promptForExclusionsRemovesSome() {
         List<String> pkgs = List.of("nano", "vim", "htop", "curl");
-        Scanner scanner = new Scanner(new ByteArrayInputStream("2,4\n".getBytes(StandardCharsets.UTF_8)));
+        Scanner scanner = mock(Scanner.class);
+        when(scanner.nextLine()).thenReturn("2,4\n");
 
         List<String> result = promptForExclusions(pkgs, scanner);
 
         assertEquals(List.of("nano", "htop"), result);
+
+        when(scanner.nextLine()).thenReturn("4\n");
+        result = promptForExclusions(pkgs, scanner);
+        assertEquals(List.of("nano", "vim", "htop"), result);
+
+        when(scanner.nextLine()).thenReturn("1,3..4\n");
+        result = promptForExclusions(pkgs, scanner);
+        assertEquals(List.of("vim"), result);
+
+        when(scanner.nextLine()).thenReturn("1..3\n");
+        result = promptForExclusions(pkgs, scanner);
+        assertEquals(List.of("curl"), result);
+
+        when(scanner.nextLine()).thenReturn("3..4,2\n");
+        result = promptForExclusions(pkgs, scanner);
+        assertEquals(List.of("nano"), result);
     }
 
     @Test
     void promptForExclusionsHandlesInvalidIndexes() {
         List<String> pkgs = List.of("pkg1", "pkg2", "pkg3");
-        Scanner scanner = new Scanner(new ByteArrayInputStream("0,5,2\n".getBytes(StandardCharsets.UTF_8)));
+        Scanner scanner = mock(Scanner.class);
+        when(scanner.nextLine()).thenReturn("0,5,2\n");
 
         List<String> result = promptForExclusions(pkgs, scanner);
 
         assertEquals(List.of("pkg1", "pkg3"), result);
+
+        when(scanner.nextLine()).thenReturn("0..1\n");
+        result = promptForExclusions(pkgs, scanner);
+        assertEquals(pkgs, result);
+
+        when(scanner.nextLine()).thenReturn("1..99\n");
+        result = promptForExclusions(pkgs, scanner);
+        assertEquals(pkgs, result);
     }
 
     @ParameterizedTest
     @ValueSource(strings = {
-        "1,,3",          // multiple consecutive commas
-        "1,3,",          // trailing comma
-        ",1,3",          // leading comma
-        "1a,2",          // invalid characters mixed with valid numbers
-        "1,abc,2",       // non-numeric characters
-        "qwerty",        // completely non-numeric input
-        "!@#, $%^, &*()" // special characters
+        "1,,3",                     // multiple consecutive commas
+        "1,3,",                     // trailing comma
+        ",1,3",                     // leading comma
+        "1a,2", "3, 5",             // invalid characters mixed with valid numbers
+        "1,abc,2",                  // non-numeric characters
+        "qwerty",                   // completely non-numeric input
+        "!@#, $%^, &*()",           // special characters
+        "1.54", "1...54", "6.-.12"  // malformed range
     })
     void promptForExclusionsThrowsRuntimeExceptionWhenInvalidInputRead(String input) {
         List<String> pkgs = List.of("pkg");
