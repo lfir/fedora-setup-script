@@ -84,7 +84,7 @@ public class PostInstallUpdater {
         if (confirm(scanner, "Install Flatpak apps?")) {
             String name = ConfigManager.getFlatpakRemoteName();
             String url = ConfigManager.getFlatpakRemoteUrl();
-            runCommand(new String[]{"flatpak", "remote-add", "--if-not-exists", name, url});
+            runCommand(new String[]{"sudo", "flatpak", "remote-add", "--if-not-exists", name, url});
             List<String> filtered = promptForExclusions(flatpakInstallPackages, scanner);
             String[] cmd = new String[filtered.size() + 4];
             cmd[0] = "flatpak";
