@@ -51,7 +51,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>cf.maybelambda.fedora.PostInstallUpdater</mainClass>
+                            <mainClass>cf.maybelambda.fedora.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

@@ -17,9 +17,9 @@ import static cf.maybelambda.fedora.ConsoleIOHelper.confirm;
 import static cf.maybelambda.fedora.ConsoleIOHelper.promptForExclusions;
 
 public class PostInstallUpdater {
-    private static boolean dryRun;
+    private boolean dryRun;
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
         if (Arrays.asList(args).contains("-h") || Arrays.asList(args).contains("--help")) {
             ConsoleIOHelper.printHelp();
             return;
@@ -117,19 +117,19 @@ public class PostInstallUpdater {
         System.out.println(color("\n.o0×X×0o. All actions completed. Goodbye. .o0×X×0o.", GREEN));
     }
 
-    static boolean isDryRun() {
+    boolean isDryRun() {
         return dryRun;
     }
 
-    static void setDryRun(boolean dryRun) {
-        PostInstallUpdater.dryRun = dryRun;
+    void setDryRun(boolean dryRun) {
+        this.dryRun = dryRun;
     }
 
-    static ProcessBuilder createProcessBuilder(String[] cmd) {
+    ProcessBuilder createProcessBuilder(String[] cmd) {
         return new ProcessBuilder(cmd);
     }
 
-    static int runCommand(String[] command) {
+    int runCommand(String[] command) {
         System.out.println("Executing shell command: " + color(String.join(" ", command), BLUE));
         if (isDryRun()) {
             System.out.println(color("Dry-run: command not executed.", YELLOW));
