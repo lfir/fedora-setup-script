@@ -66,8 +66,8 @@ class PostInstallUpdaterTests {
             filesMock.when(() -> ConfigManager.readResourceLines(any(String.class)))
                 .thenReturn(List.of("Usage instructions go here"));
 
-            updater.main(new String[]{"--help"});
-            updater.main(new String[]{"-h"});
+            Main.main(new String[]{"--help"});
+            Main.main(new String[]{"-h"});
 
             filesMock.verify(() -> ConfigManager.getHelpText(), Mockito.times(2));
         }
