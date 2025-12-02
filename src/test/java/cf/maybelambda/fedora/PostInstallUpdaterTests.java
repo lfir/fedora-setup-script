@@ -3,13 +3,11 @@ package cf.maybelambda.fedora;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.mockStatic;
 import static org.mockito.Mockito.when;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,18 +56,5 @@ class PostInstallUpdaterTests {
         int exitCode = updater.runCommand(new String[]{"fake", "cmd"});
 
         assertEquals(0, exitCode);
-    }
-
-    @Test
-    void helpOptionDisplaysHelpTextAndExits() {
-        try (var filesMock = mockStatic(ConfigManager.class)) {
-            filesMock.when(() -> ConfigManager.readResourceLines(any(String.class)))
-                .thenReturn(List.of("Usage instructions go here"));
-
-            Main.main(new String[]{"--help"});
-            Main.main(new String[]{"-h"});
-
-            filesMock.verify(() -> ConfigManager.getHelpText(), Mockito.times(2));
-        }
     }
 }

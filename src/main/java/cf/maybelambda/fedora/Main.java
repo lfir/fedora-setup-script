@@ -5,14 +5,18 @@ import static cf.maybelambda.fedora.ConsoleIOHelper.RED;
 import static cf.maybelambda.fedora.ConsoleIOHelper.color;
 import static cf.maybelambda.fedora.ConsoleIOHelper.confirm;
 import static cf.maybelambda.fedora.ConsoleIOHelper.promptForExclusions;
+import static java.util.Arrays.asList;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        if (Arrays.asList(args).contains("-h") || Arrays.asList(args).contains("--help")) {
+        run(args, new PostInstallUpdater());
+    }
+
+    static void run(String[] args, PostInstallUpdater updater) {
+        if (asList(args).contains("-h") || asList(args).contains("--help")) {
             ConsoleIOHelper.printHelp();
             return;
         }
@@ -23,9 +27,8 @@ public class Main {
         List<String> dnfRemovePackages = ConfigManager.getDnfRemovePackages();
         List<String> flatpakInstallPackages = ConfigManager.getFlatpakInstallPackages();
         Scanner scanner = new Scanner(System.in);
-        PostInstallUpdater updater = new PostInstallUpdater();
         
-        updater.setDryRun(Arrays.asList(args).contains("--dry-run"));
+        updater.setDryRun(asList(args).contains("--dry-run"));
         if (updater.isDryRun()) {
             System.out.println(color("---[Dry Run Mode] Shell Commands will not be executed.---\n", RED));
         }
