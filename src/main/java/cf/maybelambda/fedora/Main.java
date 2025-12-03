@@ -66,15 +66,17 @@ public class Main {
 
         if (confirm(scanner, "Remove all DNF packages marked for removal?")) {
             List<String> filtered = promptForExclusions(dnfRemovePackages, scanner);
-            String[] cmd = new String[filtered.size() + 4];
+            String[] cmd = new String[filtered.size() + 5];
             cmd[0] = "sudo";
             cmd[1] = "dnf";
             cmd[2] = "remove";
             cmd[3] = "-y";
+            cmd[4] = "--noautoremove";
             for (int i = 0; i < filtered.size(); i++) {
-                cmd[4 + i] = filtered.get(i);
+                cmd[5 + i] = filtered.get(i);
             }
             updater.runCommand(cmd);
+            updater.runCommand(new String[]{"sudo", "dnf", "mark", "user", "flatpak"});
             updater.runCommand(new String[]{"sudo", "dnf", "autoremove", "-y"});
         }
 
