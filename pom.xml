@@ -6,7 +6,7 @@
 
     <groupId>cf.maybelambda</groupId>
     <artifactId>fedora-setup-script</artifactId>
-    <version>3.0.4</version>
+    <version>3.0.5</version>
 
     <properties>
         <maven.compiler.source>21</maven.compiler.source>
@@ -51,7 +51,7 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>cf.maybelambda.fedora.PostInstallUpdater</mainClass>
+                            <mainClass>cf.maybelambda.fedora.Main</mainClass>
                         </manifest>
                     </archive>
                 </configuration>
