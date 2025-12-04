@@ -11,6 +11,19 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    static List<String> CMD_RPM_IMPORT = asList("sudo", "rpm", "--import");
+    static List<String> CMD_DNF_INST_REPOS = asList("sudo", "dnf", "install", "-y");
+    static List<String> CMD_DNF_INST_PKGS = asList("sudo", "dnf", "--refresh", "install", "-y");
+    static List<String> CMD_DNF_RM_PKGS = asList("sudo", "dnf", "remove", "-y", "--noautoremove");
+    static List<String> CMD_DNF_MARK = asList("sudo", "dnf", "mark", "user", "flatpak");
+    static List<String> CMD_DNF_AUTORM = asList("sudo", "dnf", "autoremove", "-y");
+    static List<String> CMD_FLATPAK_REMOTE_ADD = asList("sudo", "flatpak", "remote-add", "--if-not-exists");
+    static List<String> CMD_FLATPAK_INST = asList("flatpak", "install", "-y");
+    static List<String> CMD_GETENT = asList("getent", "group");
+    static List<String> CMD_ADD_GROUP = asList("sudo", "groupadd");
+    static List<String> CMD_ADD_USER_TO_GROUP = asList("sudo", "usermod", "-aG");
+    static List<String> CMD_SYSTEMCTL_ENABLE = asList("sudo", "systemctl", "enable", "--now", "cockpit.socket");
+
     public static void main(String[] args) {
         run(args, new PostInstallUpdater());
     }
@@ -35,82 +48,50 @@ public class Main {
 
         if (confirm(scanner, "Install RPMFusion repos?")) {
             for (String key : ConfigManager.getRPMFusionGpgKeys()) {
-                updater.runCommand(new String[]{"sudo", "rpm", "--import", key});
+                updater.runCommand(CMD_RPM_IMPORT, asList(key));
             }
 
             List<String> repos = ConfigManager.getRPMFusionRepos();
-            String[] cmd = new String[repos.size() + 4];
-            cmd[0] = "sudo";
-            cmd[1] = "dnf";
-            cmd[2] = "install";
-            cmd[3] = "-y";
-            for (int i = 0; i < repos.size(); i++) {
-                cmd[4 + i] = repos.get(i);
-            }
-            updater.runCommand(cmd);
+            updater.runCommand(CMD_DNF_INST_REPOS, repos);
         }
 
         if (confirm(scanner, "Install additional packages with DNF?")) {
             List<String> filtered = promptForExclusions(dnfInstallPackages, scanner);
-            String[] cmd = new String[filtered.size() + 5];
-            cmd[0] = "sudo";
-            cmd[1] = "dnf";
-            cmd[2] = "--refresh";
-            cmd[3] = "install";
-            cmd[4] = "-y";
-            for (int i = 0; i < filtered.size(); i++) {
-                cmd[5 + i] = filtered.get(i);
-            }
-            updater.runCommand(cmd);
+            updater.runCommand(CMD_DNF_INST_PKGS, filtered);
         }
 
         if (confirm(scanner, "Remove all DNF packages marked for removal?")) {
             List<String> filtered = promptForExclusions(dnfRemovePackages, scanner);
-            String[] cmd = new String[filtered.size() + 5];
-            cmd[0] = "sudo";
-            cmd[1] = "dnf";
-            cmd[2] = "remove";
-            cmd[3] = "-y";
-            cmd[4] = "--noautoremove";
-            for (int i = 0; i < filtered.size(); i++) {
-                cmd[5 + i] = filtered.get(i);
-            }
-            updater.runCommand(cmd);
-            updater.runCommand(new String[]{"sudo", "dnf", "mark", "user", "flatpak"});
-            updater.runCommand(new String[]{"sudo", "dnf", "autoremove", "-y"});
+            updater.runCommand(CMD_DNF_RM_PKGS, filtered);
+            updater.runCommand(CMD_DNF_MARK, asList());
+            updater.runCommand(CMD_DNF_AUTORM, asList());
         }
 
         if (confirm(scanner, "Install Flatpak apps?")) {
             String name = ConfigManager.getFlatpakRemoteName();
             String url = ConfigManager.getFlatpakRemoteUrl();
-            updater.runCommand(new String[]{"sudo", "flatpak", "remote-add", "--if-not-exists", name, url});
+            updater.runCommand(CMD_FLATPAK_REMOTE_ADD, asList(name, url));
+
             List<String> filtered = promptForExclusions(flatpakInstallPackages, scanner);
-            String[] cmd = new String[filtered.size() + 4];
-            cmd[0] = "flatpak";
-            cmd[1] = "install";
-            cmd[2] = "-y";
-            cmd[3] = name;
-            for (int i = 0; i < filtered.size(); i++) {
-                cmd[4 + i] = filtered.get(i);
-            }
-            updater.runCommand(cmd);
+            filtered.addFirst(name);
+            updater.runCommand(CMD_FLATPAK_INST, filtered);
         }
 
         if (confirm(scanner, "Ensure admin groups exist and add current user to them?")) {
             String user = System.getProperty("user.name");
             for (String group : ConfigManager.getAdminGroups()) {
-                int exit = updater.runCommand(new String[]{"getent", "group", group});
+                int exit = updater.runCommand(CMD_GETENT, asList(group));
                 boolean groupExists = (exit == 0);
                 if (!groupExists) {
                     System.out.println("Group '" + group + "' does not exist. Creating...");
-                    updater.runCommand(new String[]{"sudo", "groupadd", group});
+                    updater.runCommand(CMD_ADD_GROUP, asList(group));
                 }
-                updater.runCommand(new String[]{"sudo", "usermod", "-aG", group, user});
+                updater.runCommand(CMD_ADD_USER_TO_GROUP, asList(group, user));
             }
         }
 
         if (confirm(scanner, "Enable and start cockpit.socket service?")) {
-            updater.runCommand(new String[]{"sudo", "systemctl", "enable", "--now", "cockpit.socket"});
+            updater.runCommand(CMD_SYSTEMCTL_ENABLE, asList());
         }
 
         System.out.println(color("\n.o0×X×0o. All actions completed. Goodbye. .o0×X×0o.", GREEN));

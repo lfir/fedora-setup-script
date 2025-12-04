@@ -3,10 +3,12 @@ package cf.maybelambda.fedora;
 import static cf.maybelambda.fedora.ConsoleIOHelper.BLUE;
 import static cf.maybelambda.fedora.ConsoleIOHelper.YELLOW;
 import static cf.maybelambda.fedora.ConsoleIOHelper.color;
+import static java.util.stream.Stream.concat;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class PostInstallUpdater {
@@ -24,7 +26,8 @@ public class PostInstallUpdater {
         return new ProcessBuilder(cmd);
     }
 
-    int runCommand(String[] command) {
+    int runCommand(List<String> commandPrefix, List<String> args) {
+        String[] command = concat(commandPrefix.stream(), args.stream()).toArray(String[]::new);
         System.out.println("Executing shell command: " + color(String.join(" ", command), BLUE));
         if (isDryRun()) {
             System.out.println(color("Dry-run: command not executed.", YELLOW));

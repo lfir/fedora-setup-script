@@ -1,5 +1,6 @@
 package cf.maybelambda.fedora;
 
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
@@ -32,7 +33,7 @@ class PostInstallUpdaterTests {
         when(mockBuilder.redirectErrorStream(true)).thenReturn(mockBuilder);
         Mockito.doReturn(mockBuilder).when(updater).createProcessBuilder(any(String[].class));
 
-        int exitCode = updater.runCommand(new String[]{"echo", "test"});
+        int exitCode = updater.runCommand(asList("echo"), asList("test"));
 
         assertEquals(0, exitCode);
     }
@@ -42,7 +43,7 @@ class PostInstallUpdaterTests {
         when(mockBuilder.start()).thenThrow(new IOException("Simulated I/O error"));
         Mockito.doReturn(mockBuilder).when(updater).createProcessBuilder(any(String[].class));
 
-        int exitCode = updater.runCommand(new String[]{"failing", "cmd"});
+        int exitCode = updater.runCommand(asList("failing"), asList("cmd"));
 
         assertEquals(-1, exitCode);
     }
@@ -53,7 +54,7 @@ class PostInstallUpdaterTests {
         Mockito.doThrow(new AssertionError("Should not create ProcessBuilder in dry-run mode"))
             .when(updater).createProcessBuilder(any(String[].class));
 
-        int exitCode = updater.runCommand(new String[]{"fake", "cmd"});
+        int exitCode = updater.runCommand(asList("fake"), asList("cmd"));
 
         assertEquals(0, exitCode);
     }
