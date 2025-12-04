@@ -26,8 +26,8 @@ public class PostInstallUpdater {
         return new ProcessBuilder(cmd);
     }
 
-    int runCommand(List<String> commandPrefix, List<String> args) {
-        String[] command = concat(commandPrefix.stream(), args.stream()).toArray(String[]::new);
+    int runCommand(List<String> baseCmd, List<String> args) {
+        String[] command = concat(baseCmd.stream(), args.stream()).toArray(String[]::new);
         System.out.println("Executing shell command: " + color(String.join(" ", command), BLUE));
         if (isDryRun()) {
             System.out.println(color("Dry-run: command not executed.", YELLOW));

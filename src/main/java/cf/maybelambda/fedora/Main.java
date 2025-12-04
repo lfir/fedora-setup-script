@@ -13,16 +13,16 @@ import java.util.Scanner;
 public class Main {
     static List<String> CMD_RPM_IMPORT = asList("sudo", "rpm", "--import");
     static List<String> CMD_DNF_INST_REPOS = asList("sudo", "dnf", "install", "-y");
-    static List<String> CMD_DNF_INST_PKGS = asList("sudo", "dnf", "--refresh", "install", "-y");
-    static List<String> CMD_DNF_RM_PKGS = asList("sudo", "dnf", "remove", "-y", "--noautoremove");
-    static List<String> CMD_DNF_MARK = asList("sudo", "dnf", "mark", "user", "flatpak");
+    static List<String> CMD_DNF_INST = asList("sudo", "dnf", "--refresh", "install", "-y");
+    static List<String> CMD_DNF_RM = asList("sudo", "dnf", "remove", "-y", "--noautoremove");
+    static List<String> CMD_DNF_MARK = asList("sudo", "dnf", "mark", "user", "flatpak"); // single arg appended to cmd
     static List<String> CMD_DNF_AUTORM = asList("sudo", "dnf", "autoremove", "-y");
     static List<String> CMD_FLATPAK_REMOTE_ADD = asList("sudo", "flatpak", "remote-add", "--if-not-exists");
     static List<String> CMD_FLATPAK_INST = asList("flatpak", "install", "-y");
     static List<String> CMD_GETENT = asList("getent", "group");
     static List<String> CMD_ADD_GROUP = asList("sudo", "groupadd");
     static List<String> CMD_ADD_USER_TO_GROUP = asList("sudo", "usermod", "-aG");
-    static List<String> CMD_SYSTEMCTL_ENABLE = asList("sudo", "systemctl", "enable", "--now", "cockpit.socket");
+    static List<String> CMD_SYSTEMCTL_ENABLE = asList("sudo", "systemctl", "enable", "--now", "cockpit.socket"); // single arg appended to cmd
 
     public static void main(String[] args) {
         run(args, new PostInstallUpdater());
@@ -57,12 +57,12 @@ public class Main {
 
         if (confirm(scanner, "Install additional packages with DNF?")) {
             List<String> filtered = promptForExclusions(dnfInstallPackages, scanner);
-            updater.runCommand(CMD_DNF_INST_PKGS, filtered);
+            updater.runCommand(CMD_DNF_INST, filtered);
         }
 
         if (confirm(scanner, "Remove all DNF packages marked for removal?")) {
             List<String> filtered = promptForExclusions(dnfRemovePackages, scanner);
-            updater.runCommand(CMD_DNF_RM_PKGS, filtered);
+            updater.runCommand(CMD_DNF_RM, filtered);
             updater.runCommand(CMD_DNF_MARK, asList());
             updater.runCommand(CMD_DNF_AUTORM, asList());
         }
