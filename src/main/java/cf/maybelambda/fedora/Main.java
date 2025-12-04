@@ -15,7 +15,7 @@ public class Main {
     static List<String> CMD_DNF_INST_REPOS = asList("sudo", "dnf", "install", "-y");
     static List<String> CMD_DNF_INST = asList("sudo", "dnf", "--refresh", "install", "-y");
     static List<String> CMD_DNF_RM = asList("sudo", "dnf", "remove", "-y", "--noautoremove");
-    static List<String> CMD_DNF_MARK = asList("sudo", "dnf", "mark", "user", "flatpak"); // single arg appended to cmd
+    static List<String> CMD_DNF_MARK = asList("sudo", "dnf", "mark", "-y", "user", "flatpak"); // single arg appended to cmd
     static List<String> CMD_DNF_AUTORM = asList("sudo", "dnf", "autoremove", "-y");
     static List<String> CMD_FLATPAK_REMOTE_ADD = asList("sudo", "flatpak", "remote-add", "--if-not-exists");
     static List<String> CMD_FLATPAK_INST = asList("flatpak", "install", "-y");
