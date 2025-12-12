@@ -26,14 +26,11 @@ class PostInstallUpdaterTests {
 
     @Test
     void createProcessBuilderReturnsProcessBuilderWithExpectedCommand() {
-        String[] expectedCommand = {"ls", "-la"};
-        ProcessBuilder mockBuilder = mock(ProcessBuilder.class);
-        Mockito.doReturn(mockBuilder).when(updater).createProcessBuilder(expectedCommand);
+        String[] expectedCommand = {"date", "-R"};
         
         ProcessBuilder result = updater.createProcessBuilder(expectedCommand);
         
-        assertEquals(mockBuilder, result);
-        Mockito.verify(updater).createProcessBuilder(expectedCommand);
+        assertEquals(asList(expectedCommand), result.command());
     }
 
     @Test
