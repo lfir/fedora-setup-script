@@ -25,6 +25,18 @@ class PostInstallUpdaterTests {
     }
 
     @Test
+    void createProcessBuilderReturnsProcessBuilderWithExpectedCommand() {
+        String[] expectedCommand = {"ls", "-la"};
+        ProcessBuilder mockBuilder = mock(ProcessBuilder.class);
+        Mockito.doReturn(mockBuilder).when(updater).createProcessBuilder(expectedCommand);
+        
+        ProcessBuilder result = updater.createProcessBuilder(expectedCommand);
+        
+        assertEquals(mockBuilder, result);
+        Mockito.verify(updater).createProcessBuilder(expectedCommand);
+    }
+
+    @Test
     void runCommandReturnsStatusCodeOfCommandExecuted() throws Exception {
         Process mockProcess = mock(Process.class);
         when(mockProcess.getInputStream()).thenReturn(new ByteArrayInputStream("ok".getBytes(StandardCharsets.UTF_8)));
