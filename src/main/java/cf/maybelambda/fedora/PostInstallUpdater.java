@@ -22,10 +22,29 @@ public class PostInstallUpdater {
         this.dryRun = dryRun;
     }
 
+    /**
+     * Creates a {@link ProcessBuilder} configured with the given command array.
+     * 
+     * @param cmd An array containing the executable command parts
+     * @return New {@code ProcessBuilder} instance initialized with {@code cmd}
+     *
+     */
     ProcessBuilder createProcessBuilder(String[] cmd) {
         return new ProcessBuilder(cmd);
     }
 
+    /**  
+     * Executes a shell command built from {@code baseCmd} followed by {@code args}.  
+     * 
+     * <p>Prints the full command, displays each line of output,
+     * waits for termination, reports the exit status, and returns that status code.
+     * In dry‑run mode, it only informs the caller that no execution will occur.
+     *
+     * @param baseCmd List containing the initial command tokens  
+     * @param args Additional arguments to append to {@code baseCmd}  
+     * @return Exit code of the executed process, or {@code -1} if execution was not performed
+     *         due to an error, or {@code 0} if dry-run was enabled
+     */
     int runCommand(List<String> baseCmd, List<String> args) {
         String[] command = concat(baseCmd.stream(), args.stream()).toArray(String[]::new);
         System.out.println("Executing shell command: " + color(String.join(" ", command), BLUE));

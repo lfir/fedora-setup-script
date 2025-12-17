@@ -24,10 +24,23 @@ public class Main {
     static List<String> CMD_ADD_USER_TO_GROUP = asList("sudo", "usermod", "-aG");
     static List<String> CMD_SYSTEMCTL_ENABLE = asList("sudo", "systemctl", "enable", "--now", "cockpit.socket"); // single arg appended to cmd
 
+    /**
+     * Entry point of the program.
+     * Delegates execution to the {@code Main.run} method.
+     */
     public static void main(String[] args) {
         run(args, new PostInstallUpdater());
     }
 
+    /**
+     * Executes the setup workflow based on provided command-line arguments.
+     *
+     * <p>This method parses command-line arguments and checks for known flags, sets up interactive prompts,
+     * and orchestrates various system configuration steps.
+     *
+     * @param args Command-line arguments passed to the program at startup
+     * @param updater {@link PostInstallUpdater} responsible for executing OS commands
+     */
     static void run(String[] args, PostInstallUpdater updater) {
         if (asList(args).contains("-h") || asList(args).contains("--help")) {
             ConsoleIOHelper.printHelp();

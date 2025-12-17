@@ -30,6 +30,23 @@ public class ConfigManager {
 
     private static final List<String> adminGroups = List.of("docker", "libvirt", "vboxsf", "vboxusers");
 
+    /**
+     * Reads all lines of a resource / configuration file.
+     *
+     * <p>The method first attempts to locate the file on the real filesystem under
+     * {@code CONFIG_DIR}/{@code filename}. If that file exists, its contents are read.
+     * When the file is not found in the configured directory, the method falls back
+     * to loading it from the class‑path (e.g. {@code /filename}).
+     *
+     * <p>The resulting list contains each line of the resource exactly as it appears,
+     * without any trailing line‑separator characters.
+     *
+     * @param filename The name of the file to read
+     * @return List of lines from the requested resource
+     * @throws IOException If an I/O error occurs while reading the file, 
+     *                     or if the resource cannot be located on either the filesystem
+     *                     nor the class‑path
+     */
     static List<String> readResourceLines(String filename) throws IOException {
         Path path = Path.of(CONFIG_DIR, filename);
         if (Files.exists(path)) {
@@ -41,6 +58,19 @@ public class ConfigManager {
         }
     }
 
+    /**
+     * Loads package names from a configuration file.
+     *
+     * <p>Reads the resource identified by {@code filename} located under 
+     * {@link #CONFIG_DIR CONFIG_DIR} or the class-path. 
+     * Each non‑empty line that does not start with '#' is treated as a package name.
+     * Lines beginning with '#' are considered comments and ignored. If the file cannot be
+     * accessed, an error message is written to {@code System.err} and an empty list is returned.
+     *
+     * @param filename The resource file name (e.g., {@code dnf-install.cf})
+     * @return List containing the package identifiers found in the
+     *         file; may be empty if no valid entries are present or an I/O error occurs
+     */
     static List<String> loadPackageNamesFrom(String filename) {
         List<String> packages = new ArrayList<>();
         try {
