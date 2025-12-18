@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    private static final String OS_USERNAME_PROP = "user.name";
+    
     static List<String> CMD_RPM_IMPORT = asList("sudo", "rpm", "--import");
     static List<String> CMD_DNF_INST_REPOS = asList("sudo", "dnf", "install", "-y");
     static List<String> CMD_DNF_INST = asList("sudo", "dnf", "--refresh", "install", "-y");
@@ -19,7 +21,6 @@ public class Main {
     static List<String> CMD_DNF_AUTORM = asList("sudo", "dnf", "autoremove", "-y");
     static List<String> CMD_FLATPAK_REMOTE_ADD = asList("sudo", "flatpak", "remote-add", "--if-not-exists");
     static List<String> CMD_FLATPAK_INST = asList("flatpak", "install", "-y");
-    static List<String> CMD_GETENT = asList("getent", "group");
     static List<String> CMD_ADD_GROUP = asList("sudo", "groupadd");
     static List<String> CMD_ADD_USER_TO_GROUP = asList("sudo", "usermod", "-aG");
     static List<String> CMD_SYSTEMCTL_ENABLE = asList("sudo", "systemctl", "enable", "--now", "cockpit.socket"); // single arg appended to cmd
@@ -91,14 +92,9 @@ public class Main {
         }
 
         if (confirm(scanner, "Ensure admin groups exist and add current user to them?")) {
-            String user = System.getProperty("user.name");
+            String user = System.getProperty(OS_USERNAME_PROP);
             for (String group : ConfigManager.getAdminGroups()) {
-                int exit = updater.runCommand(CMD_GETENT, asList(group));
-                boolean groupExists = (exit == 0);
-                if (!groupExists) {
-                    System.out.println("Group '" + group + "' does not exist. Creating...");
-                    updater.runCommand(CMD_ADD_GROUP, asList(group));
-                }
+                updater.runCommand(CMD_ADD_GROUP, asList(group));
                 updater.runCommand(CMD_ADD_USER_TO_GROUP, asList(group, user));
             }
         }
