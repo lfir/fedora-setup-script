@@ -49,8 +49,8 @@ Both should be used as a non-root user. The app invokes _sudo_ as needed.
 #### Notes
 
 - Custom config. (like changing the names of the packages to be installed or removed) can be used without recompiling
-by copying the [src/main/resources](https://github.com/lfir/fedora-setup-script/tree/main/src/main/resources) dir tree 
-to the same location where the jar file is, editing the target configuration files and then starting the app.
+by copying the target configuration file, such as [dnf-install.cf](https://github.com/lfir/fedora-setup-script/blob/main/src/main/resources/dnf-install.cf)
+, to the same location where the jar file is, editing it and then starting the app.
 
 - Free useful apps available in a portable format (i.e. AppImage)
 

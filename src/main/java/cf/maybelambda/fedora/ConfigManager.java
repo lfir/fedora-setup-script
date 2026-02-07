@@ -35,8 +35,9 @@ public class ConfigManager {
      *
      * <p>The method first attempts to locate the file on the real filesystem under
      * {@code CONFIG_DIR}/{@code filename}. If that file exists, its contents are read.
-     * When the file is not found in the configured directory, the method falls back
-     * to loading it from the class‑path (e.g. {@code /filename}).
+     * When the file is not found in the configuration directory, the method falls back
+     * to loading it from the current working directory, or finally from the
+     * class‑path (e.g. {@code /filename}).
      *
      * <p>The resulting list contains each line of the resource exactly as it appears,
      * without any trailing line‑separator characters.
@@ -49,6 +50,10 @@ public class ConfigManager {
      */
     static List<String> readResourceLines(String filename) throws IOException {
         Path path = Path.of(CONFIG_DIR, filename);
+        if (Files.exists(path)) {
+            return Files.readAllLines(path, StandardCharsets.UTF_8);
+        }
+        path = Path.of(filename);
         if (Files.exists(path)) {
             return Files.readAllLines(path, StandardCharsets.UTF_8);
         }

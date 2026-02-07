@@ -48,7 +48,7 @@ public class ConfigManagerTests {
 
             assertEquals(List.of("one", "two", "three"), result);
 
-            filesMock.verify(() -> Files.exists(any(Path.class)));
+            filesMock.verify(() -> Files.exists(any(Path.class)), Mockito.times(2));
         }
     }
 
