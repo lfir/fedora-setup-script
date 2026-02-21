@@ -1,0 +1,195 @@
+@startuml Fedora Setup Script - Class Diagram
+
+!define TITLE_COLOR #FFD700
+!define CLASS_COLOR #E1F5FF
+!define UTILITY_COLOR #F0F4C3
+
+skinparam backgroundColor #FAFAFA
+skinparam classBackgroundColor CLASS_COLOR
+skinparam classBorderColor #01579B
+skinparam arrowColor #00695C
+skinparam stereotypeCBackgroundColor UTILITY_COLOR
+
+title Fedora Setup Script - UML Class Diagram
+
+' ============================================================================
+' MAIN CLASS
+' ============================================================================
+class Main {
+    {static} -OS_USERNAME_PROP: String
+    {static} -CMD_RPM_IMPORT: List<String>
+    {static} -CMD_DNF_INST_REPOS: List<String>
+    {static} -CMD_DNF_INST: List<String>
+    {static} -CMD_DNF_RM: List<String>
+    {static} -CMD_DNF_MARK: List<String>
+    {static} -CMD_DNF_AUTORM: List<String>
+    {static} -CMD_FLATPAK_REMOTE_ADD: List<String>
+    {static} -CMD_FLATPAK_INST: List<String>
+    {static} -CMD_ADD_GROUP: List<String>
+    {static} -CMD_ADD_USER_TO_GROUP: List<String>
+    {static} -CMD_SYSTEMCTL_ENABLE: List<String>
+    --
+    {static} +main(args: String[]): void
+    {static} +run(args: String[], updater: PostInstallUpdater): void
+}
+
+' ============================================================================
+' CONFIG MANAGER CLASS
+' ============================================================================
+class ConfigManager {
+    {static} -CONFIG_DIR: String
+    {static} -DNF_INSTALL_FILE: String
+    {static} -DNF_REMOVE_FILE: String
+    {static} -FLATPAK_INSTALL_FILE
+    {static} -HELP_FILE: String
+    {static} -gpgKeys: List<String>
+    {static} -rpmFusionRepos: List<String>
+    {static} -flatpakRemoteName: String
+    {static} -flatpakRemoteUrl: String
+    {static} -adminGroups: List<String>
+    --
+    {static} +readResourceLines(filename: String): List<String>
+    {static} +loadPackageNamesFrom(filename: String): List<String>
+    {static} +getRPMFusionGpgKeys(): List<String>
+    {static} +getRPMFusionRepos(): List<String>
+    {static} +getFlatpakRemoteName(): String
+    {static} +getFlatpakRemoteUrl(): String
+    {static} +getAdminGroups(): List<String>
+    {static} +getDnfInstallPackages(): List<String>
+    {static} +getDnfRemovePackages(): List<String>
+    {static} +getFlatpakInstallPackages(): List<String>
+    {static} +getHelpText(): List<String>
+}
+
+' ============================================================================
+' CONSOLE IO HELPER CLASS
+' ============================================================================
+class ConsoleIOHelper {
+    {static} -RESET: String
+    {static} -YELLOW: String
+    {static} -GREEN: String
+    {static} -RED: String
+    {static} -BLUE: String
+    {static} -EXCLUDE_PROMPT: String
+    --
+    {static} +confirm(scanner: Scanner, prompt: String): boolean
+    {static} +promptForExclusions(packages: List<String>, scanner: Scanner): List<String>
+    {static} +printHelp(): void
+    {static} +color(str: String, ansiColorCode: String): String
+    {static} +isANSISupported(term: String, console: Console): boolean
+}
+
+' ============================================================================
+' POST INSTALL UPDATER CLASS
+' ============================================================================
+class PostInstallUpdater {
+    -dryRun: boolean
+    --
+    +isDryRun(): boolean
+    +setDryRun(dryRun: boolean): void
+    +createProcessBuilder(cmd: String[]): ProcessBuilder
+    +runCommand(baseCmd: List<String>, args: List<String>): int
+}
+
+' ============================================================================
+' RELATIONSHIPS AND DEPENDENCIES
+' ============================================================================
+
+' Main uses ConfigManager for static configuration retrieval
+Main ..> ConfigManager : "reads config from"
+
+' Main uses ConsoleIOHelper for console I/O and coloring
+Main ..> ConsoleIOHelper : "uses for console I/O"
+
+' Main orchestrates PostInstallUpdater
+Main --> PostInstallUpdater : "delegates command execution to"
+
+' ConsoleIOHelper depends on ConfigManager for help text
+ConsoleIOHelper ..> ConfigManager : "reads help from"
+
+' PostInstallUpdater uses Java standard library classes
+PostInstallUpdater ..> "java.lang.ProcessBuilder" : "creates"
+PostInstallUpdater ..> "java.io.BufferedReader" : "uses"
+
+' Main uses Java Scanner for user input
+Main --> "java.util.Scanner" : "reads user input from"
+
+' ============================================================================
+' NOTES AND DOCUMENTATION
+' ============================================================================
+
+note right of Main
+  **Orchestrator Pattern**
+  Entry point that coordinates:
+  - Configuration loading (ConfigManager)
+  - User interaction (ConsoleIOHelper)
+  - Command execution (PostInstallUpdater)
+  
+  Workflow:
+  1. Accepts command-line arguments
+  2. Prompts user for options
+  3. Delegates task execution to PostInstallUpdater
+end note
+
+note right of ConfigManager
+  **Singleton-like Utility**
+  Static methods for:
+  - Configuration data access
+  - Resource file loading
+  - Package list management
+  
+  Key Features:
+  - Reads from filesystem first
+  - Falls back to classpath resources
+  - Filters comments in config files
+end note
+
+note right of ConsoleIOHelper
+  **Utility Class**
+  Static methods for:
+  - User confirmation prompts
+  - Package selection filtering
+  - ANSI color support detection
+  - Help documentation display
+  
+  Color Support:
+  - Detects terminal capability
+  - Applies ANSI codes when available
+end note
+
+note right of PostInstallUpdater
+  **Command Executor**
+  Responsible for:
+  - Command composition
+  - Process creation & execution
+  - Output handling & display
+  - Exit code reporting
+  
+  Features:
+  - Dry-run mode support
+  - Error stream merging
+  - Real-time output display
+end note
+
+' ============================================================================
+' LEGEND
+' ============================================================================
+
+note bottom
+  **Package Structure**: cf.maybelambda.fedora
+  
+  **Key Patterns**:
+  - Orchestrator (Main)
+  - Singleton-like Utilities (ConfigManager, ConsoleIOHelper)
+  - Command Pattern (PostInstallUpdater)
+  - Dependency Injection (PostInstallUpdater passed to Main.run())
+  
+  **Data Flow**:
+  1. Main receives user input via Scanner
+  2. Reads configuration from ConfigManager
+  3. Presents options via ConsoleIOHelper
+  4. Delegates execution to PostInstallUpdater
+  5. PostInstallUpdater creates and runs system processes
+end note
+
+@enduml
