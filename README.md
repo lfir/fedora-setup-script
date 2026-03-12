@@ -1,7 +1,7 @@
 ## Fedora setup script
 
 Java (21+) program that installs most KDE applications and many development tools on
-Fedora 42 systems, using the [KDE Edition](https://fedoraproject.org/kde),
+Fedora 44 systems, using the [KDE Edition](https://fedoraproject.org/kde),
 which comes with Java 21 preinstalled, as a starting point.
 It also sets some configuration options useful for development work and system administration.
 
