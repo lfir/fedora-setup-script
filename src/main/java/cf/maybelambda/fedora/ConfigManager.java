@@ -21,8 +21,8 @@ public class ConfigManager {
         "https://rpmfusion.org/keys?action=AttachFile&do=get&target=RPM-GPG-KEY-rpmfusion-nonfree-fedora-2020"
     );
     private static final List<String> rpmFusionRepos = List.of(
-        "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-42.noarch.rpm",
-        "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-42.noarch.rpm"
+        "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-44.noarch.rpm",
+        "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-44.noarch.rpm"
     );
 
     private static final String flatpakRemoteName = "flathub";
