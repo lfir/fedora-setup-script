@@ -21,7 +21,6 @@ winetricks
 
 # Graphics apps
 chafa
-flameshot
 
 # Hardware drivers & monitoring tools
 btop
