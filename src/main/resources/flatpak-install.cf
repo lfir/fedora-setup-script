@@ -2,3 +2,6 @@
 com.github.tchx84.Flatseal
 io.github.flattool.Warehouse
 it.mijorus.gearlever
+
+# Networking tools
+org.localsend.localsend_app
